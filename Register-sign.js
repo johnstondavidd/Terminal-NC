@@ -68,9 +68,38 @@ function Appear(user) {
     content.innerHTML= `
     <p>Welcome!</p>
     <button onclick="Close()">Logout</button>
+    <h1>Add Patient</h1>
+    <input type="text" id="name" placeholder="name" class="form-control my-2"></input>
+    <input type="text" id="last" placeholder="last" class="form-control my-2"></input>
+    <input type="text" id="born" placeholder="born" class="form-control my-2"></input>
+    <button class="btn btn-info" id="Savebutton" onclick="Save()">Save</button>
     `;  
   }
   
+}
+
+function Save() {
+
+  var name = document.getElementById('name').value;
+  var last = document.getElementById('last').value;
+  var born = document.getElementById('born').value;
+
+  db.collection("Patients").add({
+    first: name,
+    last: last,
+    born: born
+
+})
+.then((docRef) => {
+    console.log("Document written with ID: ", docRef.id);
+    document.getElementById('name').value='';
+    document.getElementById('last').value='';
+    document.getElementById('born').value='';
+})
+.catch((error) => {
+    console.error("Error adding document: ", error);
+});
+
 }
 
 function Close() {
