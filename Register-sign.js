@@ -72,19 +72,24 @@ function Appear(user) {
     <input type="text" id="name" placeholder="name" class="form-control my-2"></input>
     <input type="text" id="last" placeholder="last" class="form-control my-2"></input>
     <input type="text" id="born" placeholder="born" class="form-control my-2"></input>
-    <button class="btn btn-info" id="Savebutton" onclick="Save()">Save</button>
+    <button class="btn btn-info" id="Patientbutton" onclick="SavePatient()">Save</button>
+    <h1>Add history</h1>
+    <input type="text" id="date" placeholder="date" class="form-control my-2"></input>
+    <input type="text" id="diagnosis" placeholder="diagnosis" class="form-control my-2"></input>
+    <input type="text" id="medication" placeholder="medication" class="form-control my-2"></input>
+    <button class="btn btn-info" id="Historybutton" onclick="SaveHistory()">Save</button>
     `;  
   }
   
 }
 
-function Save() {
+function SavePatient() {
 
   var name = document.getElementById('name').value;
   var last = document.getElementById('last').value;
   var born = document.getElementById('born').value;
   var db = firebase.firestore();
-
+  
   db.collection("Patients").add({
     first: name,
     last: last,
@@ -101,7 +106,34 @@ function Save() {
     console.error("Error adding document: ", error);
 });
 
+
 }
+
+// function SaveHistory() {
+
+//   //var patient = document.getElementById('patient').value;
+//   var date = document.getElementById('date').value;
+//   var diagnosis = document.getElementById('diagnosis').value;
+//   var medication = document.getElementById('medication').value;
+//   var dbb = firebase.firestore();
+  
+//   dbb.collection('Patients').doc(this.username).collection('History').add({
+//     date: date,
+//     diagnosis: diagnosis,
+//     medication: medication
+//   })
+// .then((docRef) => {
+//     console.log("Document written with ID: ", docRef.id);
+//     document.getElementById('date').value='';
+//     document.getElementById('diagnosis').value='';
+//     document.getElementById('medication').value='';
+// })
+// .catch((error) => {
+//     console.error("Error adding document: ", error);
+// });
+
+
+// }
 
 function Close() {
   firebase.auth().signOut()
