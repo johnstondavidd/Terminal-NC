@@ -83,6 +83,7 @@ function Save() {
   var name = document.getElementById('name').value;
   var last = document.getElementById('last').value;
   var born = document.getElementById('born').value;
+  var db = firebase.firestore();
 
   db.collection("Patients").add({
     first: name,
