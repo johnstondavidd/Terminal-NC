@@ -65,20 +65,45 @@ function Appear(user) {
   var user = user;
   var content = document.getElementById('content');
   if (user.emailVerified) {
+    
     content.innerHTML= `
-    <p>Welcome!</p>
-    <button onclick="Close()">Logout</button>
-    <h1>Add Patient</h1>
-    <input type="text" id="name" placeholder="name" class="form-control my-2"></input>
-    <input type="text" id="last" placeholder="last" class="form-control my-2"></input>
-    <input type="text" id="born" placeholder="born" class="form-control my-2"></input>
-    <button class="btn btn-info" id="Patientbutton" onclick="SavePatient()">Save</button>
-    <h1>Add history</h1>
-    <input type="text" id="date" placeholder="date" class="form-control my-2"></input>
-    <input type="text" id="diagnosis" placeholder="diagnosis" class="form-control my-2"></input>
-    <input type="text" id="medication" placeholder="medication" class="form-control my-2"></input>
-    <button class="btn btn-info" id="Historybutton" onclick="SaveHistory()">Save</button>
-    `;  
+    <h3 class="text-center">Add Patient</h3>
+    <div class="container">
+      <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand"></a>
+          <div class="form-inline">
+            <input id="name" type="text" placeholder="Name" class="form-control mr-sm-2">
+            <input id="last" type="text" placeholder="Last" class="form-control mr-sm-2">
+            <input id="born" type="text" placeholder="Born (dd/mm/yyyyy)" class="form-control mr-sm-2">
+            <input id="DNI" type="text" placeholder="DNI" class="form-control mr-sm-2">
+            <button class="btn btn-outline-success my-2 my-sm-0" onclick="SavePatient()">Add Patient</button>
+          </div>
+      </nav>
+    </div>
+    
+    <h3 class="text-center">First Search Patient to add History</h3>
+    </div>
+        <nav class="navbar navbar-light bg-light">
+          <div class="container-fluid">
+          <a class="navbar-brand"></a>
+          <form class="d-flex">
+          <input class="form-control me-2" id="PatientSearch" type="text" aria-label="Search Patient">
+          <button class="btn btn-outline-success my-2 my-sm-0" onclick="PatientSearch()">Search</button>
+          </form>
+          </div>
+        </nav>
+    </div> 
+    
+    <h3 class="text-center">Add History</h3>
+    <div class="mb-3">
+        <input type="text" class="form-control" id="history" placeholder="Add history here">
+        <button class="btn btn-outline-success my-2 my-sm-0" onclick="SaveHistory()">Save History</button>
+    </div>
+    <button class="btn btn-danger position-absolute bottom-90 end-50" onclick="Close()">Logout</button>
+    
+    `
+
   }
   
 }
@@ -88,12 +113,16 @@ function SavePatient() {
   var name = document.getElementById('name').value;
   var last = document.getElementById('last').value;
   var born = document.getElementById('born').value;
+  var DNI = document.getElementById('DNI').value;
+  var History=[];
   var db = firebase.firestore();
 
   db.collection("Patients").add({
     first: name,
     last: last,
     born: born,
+    DNI: DNI,
+    History
 
 })
   
@@ -103,9 +132,7 @@ function SavePatient() {
     document.getElementById('name').value='';
     document.getElementById('last').value='';
     document.getElementById('born').value='';
-    db.collection("Patients").doc(docRef.id).collection("History").add({
-      Registration: "Success"
-  })
+    
 })
 .catch((error) => {
     console.error("Error adding document: ", error);
@@ -114,32 +141,46 @@ function SavePatient() {
 
 }
 
-// function SaveHistory() {
+function PatientSearch() {
+  db.collection("Patients").where("DNI", "==", true)
+  .get()
+  .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+          // doc.data() is never undefined for query doc snapshots
+          console.log(doc.id, " => ", doc.data());
+      });
+  })
+  .catch((error) => {
+      console.log("Error getting documents: ", error);
+  });
+}
 
-//   var date = document.getElementById('date').value;
-//   var diagnosis = document.getElementById('diagnosis').value;
-//   var medication = document.getElementById('medication').value;
-//   var db = firebase.firestore();
+function SaveHistory() {
+  var history = document.getElementById('history').value;
+  var db = firebase.firestore();
 
-//   db.collection("Patients").get(doc.id)
+  db.collection("Patients").add({
+    first: namessssss,
+    last: lastsssss,
+    born: bornssssss,
+    History
+
+})
   
-//   db.collection('Patients').doc(this.username).collection('History').add({
-//     date: date,
-//     diagnosis: diagnosis,
-//     medication: medication
-//   })
-// .then((docRef) => {
-//     console.log("Document written with ID: ", docRef.id);
-//     document.getElementById('date').value='';
-//     document.getElementById('diagnosis').value='';
-//     document.getElementById('medication').value='';
-// })
-// .catch((error) => {
-//     console.error("Error adding document: ", error);
-// });
+  
+.then((docRef) => {
+    console.log("Document written with ID: ", docRef.id);
+    document.getElementById('name').value='';
+    document.getElementById('last').value='';
+    document.getElementById('born').value='';
+    
+})
+.catch((error) => {
+    console.error("Error adding document: ", error);
+});
 
-
-// }
+ 
+}
 
 function Close() {
   firebase.auth().signOut()
