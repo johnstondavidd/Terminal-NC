@@ -89,18 +89,23 @@ function SavePatient() {
   var last = document.getElementById('last').value;
   var born = document.getElementById('born').value;
   var db = firebase.firestore();
-  
+
   db.collection("Patients").add({
     first: name,
     last: last,
-    born: born
+    born: born,
 
 })
+  
+  
 .then((docRef) => {
     console.log("Document written with ID: ", docRef.id);
     document.getElementById('name').value='';
     document.getElementById('last').value='';
     document.getElementById('born').value='';
+    db.collection("Patients").doc(docRef.id).collection("History").add({
+      Registration: "Success"
+  })
 })
 .catch((error) => {
     console.error("Error adding document: ", error);
@@ -111,13 +116,14 @@ function SavePatient() {
 
 // function SaveHistory() {
 
-//   //var patient = document.getElementById('patient').value;
 //   var date = document.getElementById('date').value;
 //   var diagnosis = document.getElementById('diagnosis').value;
 //   var medication = document.getElementById('medication').value;
-//   var dbb = firebase.firestore();
+//   var db = firebase.firestore();
+
+//   db.collection("Patients").get(doc.id)
   
-//   dbb.collection('Patients').doc(this.username).collection('History').add({
+//   db.collection('Patients').doc(this.username).collection('History').add({
 //     date: date,
 //     diagnosis: diagnosis,
 //     medication: medication
