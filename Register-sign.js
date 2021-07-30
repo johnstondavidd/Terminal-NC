@@ -89,7 +89,7 @@ function Appear(user) {
           <a class="navbar-brand"></a>
           <form class="d-flex">
           <input class="form-control me-2" id="PatientSearch" type="text" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" onclick="PatientSearch()">Search</button>
+          <button class="btn btn-outline-success my-2 my-sm-0" onclick="PatientsSearch()">Search</button>
           </form>
           </div>
         </nav>
@@ -102,24 +102,24 @@ function Appear(user) {
     </div>
 
     <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">ID</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Born</th>
-        <th scope="col">DNI</th>
-        <th scope="col">History</th>
-      </tr>
-    </thead>
-    <tbody id = "table">
-      <tr>
-        <th scope="row"></th>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-     </tbody>
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">First</th>
+          <th scope="col">Last</th>
+          <th scope="col">Born</th>
+          <th scope="col">DNI</th>
+          <th scope="col">History</th>
+        </tr>
+      </thead>
+      <tbody id = "table">
+        <tr>
+          <th scope="row"></th>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
     </table>
 
     <button class="btn btn-danger position-absolute bottom-0 start-50 translate-middle-x" onclick="Close()">Logout</button>
@@ -166,20 +166,29 @@ function SavePatient() {
 
 }
 
-function PatientSearch() {
-  db.collection("Patients").where("PatientSearch", "==", true).get()
-  .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
-          console.log(doc.id, " => ", doc.data());
-      });
-  })
-  .catch((error) => {
-      console.log("Error getting documents: ", error);
-  });
+function PatientsSearch() {
+  console.log("ENtrooooooo");
+  var table = document.getElementById('table');
+  var db = firebase.firestore();
+  var Search = document.getElementById('PatientSearch').value
+  
+  db.collection("Patients").where("DNI", "==", Search).onSnapshot((querySnapshot) => {
+    table.innerHTML = '';
+    querySnapshot.forEach((doc) => {
+        console.log(`${doc.id} => ${doc.data().DNI}`);
+        table.innerHTML += `
+        <tr>
+        <th scope="row">${doc.id}</th>
+        <td>${doc.first}</td>
+        <td>${doc.last}</td>
+        <td>${doc.born}</td>
+        <td>${doc.DNI}</td>
+        <td>${doc.History}</td>
+        </tr>
+        `
+    });
+});
 }
-
-
 
 function SaveHistory() {
   var history = document.getElementById('history').value;
