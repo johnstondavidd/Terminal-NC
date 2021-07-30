@@ -101,18 +101,13 @@ function Appear(user) {
         <button class="btn btn-outline-success my-2 my-sm-0" onclick="SaveHistory()">Save History</button>
     </div>
 
-    <h3 class="text-center">View Database</h3>
-    <div class="mb-3">
-        <button class="btn btn-outline-success position-absolute bottom-90 end-50" onclick="ViewDatabase()">View</button>
-    </div>
-
     <table class="table">
     <thead>
       <tr>
         <th scope="col">ID</th>
-        <th scope="col">first</th>
-        <th scope="col">last</th>
-        <th scope="col">born</th>
+        <th scope="col">First</th>
+        <th scope="col">Last</th>
+        <th scope="col">Born</th>
         <th scope="col">DNI</th>
         <th scope="col">History</th>
       </tr>
@@ -127,7 +122,7 @@ function Appear(user) {
      </tbody>
     </table>
 
-    <button class="btn btn-danger position-absolute top-0 start-100 translate-middle" onclick="Close()">Logout</button>
+    <button class="btn btn-danger position-absolute bottom-0 start-50 translate-middle-x" onclick="Close()">Logout</button>
     
     `
 
@@ -141,7 +136,6 @@ function SavePatient() {
   var last = document.getElementById('last').value;
   var born = document.getElementById('born').value;
   var DNI = document.getElementById('DNI').value;
-  var History=[];
   var db = firebase.firestore();
 
   db.collection("Patients").add({
@@ -149,16 +143,20 @@ function SavePatient() {
     last: last,
     born: born,
     DNI: DNI,
-    History
-
 })
-  
+
   
 .then((docRef) => {
     console.log("Document written with ID: ", docRef.id);
     document.getElementById('name').value='';
     document.getElementById('last').value='';
     document.getElementById('born').value='';
+    document.getElementById('DNI').value='';
+    db.collection('Patients').doc(docRef.id)
+          .collection('History').add({
+        })
+
+    
     
 })
 .catch((error) => {
