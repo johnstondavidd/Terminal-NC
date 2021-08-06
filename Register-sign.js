@@ -1,3 +1,5 @@
+var db = firebase.firestore();
+
 function Register() {
     var email = document.getElementById('email').value;
     var password = document.getElementById('password').value;
@@ -99,28 +101,23 @@ function Appear(user) {
     <div class="mb-3">
         <input type="text" class="form-control" id="history" placeholder="Add history here">
         <button class="btn btn-outline-success my-2 my-sm-0" onclick="SaveHistory()">Save History</button>
-    </div>
+        <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Born</th>
+            <th scope="col">DNI</th>
+            <th scope="col">History</th>
+          </tr>
+        </thead>
+        <tbody id="table">
+        </tbody>
+      </table>
+      </div>
 
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">First</th>
-          <th scope="col">Last</th>
-          <th scope="col">Born</th>
-          <th scope="col">DNI</th>
-          <th scope="col">History</th>
-        </tr>
-      </thead>
-      <tbody id = "table">
-        <tr>
-          <th scope="row"></th>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </tbody>
-    </table>
+    
 
     <button class="btn btn-danger position-absolute bottom-0 start-50 translate-middle-x" onclick="Close()">Logout</button>
     
@@ -136,7 +133,7 @@ function SavePatient() {
   var last = document.getElementById('last').value;
   var born = document.getElementById('born').value;
   var DNI = document.getElementById('DNI').value;
-  var db = firebase.firestore();
+  //var db = firebase.firestore();
 
   db.collection("Patients").add({
     first: name,
@@ -167,53 +164,20 @@ function SavePatient() {
 }
 
 function PatientsSearch() {
-  console.log("ENtrooooooo");
+  console.log("Entra a la funcion");
   var table = document.getElementById('table');
-  var db = firebase.firestore();
-  var Search = document.getElementById('PatientSearch').value
+  //var Search = document.getElementById('PatientSearch').value;
   
-  db.collection("Patients").where("DNI", "==", Search).onSnapshot((querySnapshot) => {
-    table.innerHTML = '';
-    querySnapshot.forEach((doc) => {
-        console.log(`${doc.id} => ${doc.data().DNI}`);
-        table.innerHTML += `
-        <tr>
-        <th scope="row">${doc.id}</th>
-        <td>${doc.first}</td>
-        <td>${doc.last}</td>
-        <td>${doc.born}</td>
-        <td>${doc.DNI}</td>
-        <td>${doc.History}</td>
-        </tr>
-        `
-    });
+  //db.collection("Patients").where("DNI", "==", Search).onSnapshot((querySnapshot) => {
+  db.collection("Patients").onSnapshot((querySnapshot) => {  
+   // table.innerHTML = '';
+    
 });
 }
 
 function SaveHistory() {
   var history = document.getElementById('history').value;
-  var db = firebase.firestore();
-
-  db.collection("Patients").add({
-    first: namessssss,
-    last: lastsssss,
-    born: bornssssss,
-    History
-
-})
-  
-  
-.then((docRef) => {
-    console.log("Document written with ID: ", docRef.id);
-    document.getElementById('name').value='';
-    document.getElementById('last').value='';
-    document.getElementById('born').value='';
-    
-})
-.catch((error) => {
-    console.error("Error adding document: ", error);
-});
-
+  //var db = firebase.firestore();
  
 }
 
@@ -238,26 +202,5 @@ user.sendEmailVerification()
 .catch(function(error) {
   console.log(error)
   // An error happened.
-});
-}
-
-function ViewDatabase() {
-  var table = document.getElementById('table');
-  var db = firebase.firestore();
-  db.collection("Patients").get().then((querySnapshot) => {
-    table.innerHTML = '';
-    querySnapshot.forEach((doc) => {
-        console.log(`${doc.id} => ${doc.data()}`);
-        table.innerHTML += `
-        <tr>
-        <th scope="row">${doc.id}</th>
-        <td>${doc.first}</td>
-        <td>${doc.last}</td>
-        <td>${doc.born}</td>
-        <td>${doc.DNI}</td>
-        <td>${doc.History}</td>
-        </tr>
-        `
-    });
 });
 }
