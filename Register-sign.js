@@ -85,17 +85,16 @@ function Appear(user) {
     </div>
     
     <h3 class="text-center">First Search Patient to add History</h3>
-    </div>
-        <nav class="navbar navbar-light bg-light">
-          <div class="container-fluid">
+    <div class="container">
+      <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
           <a class="navbar-brand"></a>
-          <form class="d-flex">
-          <input class="form-control me-2" id="PatientSearch" type="text" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" onclick="PatientsSearch()">Search</button>
-          </form>
+          <div class="form-inline">
+            <input id="search" type="text" placeholder="DNI" class="form-control mr-sm-2">
+            <button class="btn btn-outline-success my-2 my-sm-0" onclick="PatientsSearch()">Search</button>
           </div>
-        </nav>
-    </div> 
+      </nav>
+    </div>
     
     <h3 class="text-center">Add History</h3>
     <div class="mb-3">
@@ -109,7 +108,6 @@ function Appear(user) {
             <th scope="col">Last</th>
             <th scope="col">Born</th>
             <th scope="col">DNI</th>
-            <th scope="col">History</th>
           </tr>
         </thead>
         <tbody id="table">
@@ -165,13 +163,23 @@ function SavePatient() {
 
 function PatientsSearch() {
   console.log("Entra a la funcion");
+  var search = document.getElementById('search').value;
+  console.log("DNI: ", search);
   var table = document.getElementById('table');
-  //var Search = document.getElementById('PatientSearch').value;
-  
-  //db.collection("Patients").where("DNI", "==", Search).onSnapshot((querySnapshot) => {
-  db.collection("Patients").onSnapshot((querySnapshot) => {  
-   // table.innerHTML = '';
-    
+  db.collection("Patients").where("DNI", "==", search).onSnapshot((querySnapshot) => {
+    table.innerHTML = '';
+    querySnapshot.forEach((doc) => {
+        console.log(`${doc.id} => ${doc.data()}`);
+        table.innerHTML +=`
+        <tr>
+            <th scope="col">${doc.id}</th>
+            <th scope="col">${doc.data().first}</th>
+            <th scope="col">${doc.data().last}</th>
+            <th scope="col">${doc.data().born}</th>
+            <th scope="col">${doc.data().DNI}</th>
+          </tr> 
+        `
+    });
 });
 }
 
