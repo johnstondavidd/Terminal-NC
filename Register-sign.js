@@ -79,7 +79,7 @@ function Appear(user) {
             <input id="last" type="text" placeholder="Last" class="form-control mr-sm-2">
             <input id="born" type="text" placeholder="Born (dd/mm/yyyyy)" class="form-control mr-sm-2">
             <input id="DNI" type="text" placeholder="DNI" class="form-control mr-sm-2">
-            <button class="btn btn-outline-success my-2 my-sm-0" onclick="SavePatient()">Add Patient</button>
+            <button class="btn btn-outline-success my-2 my-sm-0" id="mybutton" onclick="SavePatient()">Add Patient</button>
           </div>
       </nav>
     </div>
@@ -96,10 +96,8 @@ function Appear(user) {
       </nav>
     </div>
     
-    <h3 class="text-center">Add History</h3>
+   
     <div class="mb-3">
-        <input type="text" class="form-control" id="history" placeholder="Add history here">
-        <button class="btn btn-outline-success my-2 my-sm-0" onclick="SaveHistory()">Save History</button>
         <table class="table">
         <thead>
           <tr>
@@ -108,6 +106,9 @@ function Appear(user) {
             <th scope="col">Last</th>
             <th scope="col">Born</th>
             <th scope="col">DNI</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+            <th scope="col">History</th>
           </tr>
         </thead>
         <tbody id="table">
@@ -173,20 +174,70 @@ function PatientsSearch() {
         table.innerHTML +=`
         <tr>
             <th scope="col">${doc.id}</th>
-            <th scope="col">${doc.data().first}</th>
-            <th scope="col">${doc.data().last}</th>
-            <th scope="col">${doc.data().born}</th>
-            <th scope="col">${doc.data().DNI}</th>
-          </tr> 
+            <td>${doc.data().first}</td>
+            <td>${doc.data().last}</td>
+            <td>${doc.data().born}</td>
+            <td>${doc.data().DNI}</td>
+            <td><button class="btn btn-warning" onclick="UpdatePatient('${doc.id}','${doc.data().first}','${doc.data().last}','${doc.data().born}','${doc.data().DNI}')">Edit</button></td>
+            <td><button class="btn btn-danger" onclick="DeletePatient('${doc.id}')">Delete</button></td>
+            <td><button class="btn btn-success" onclick="SaveHistory('${doc.id}')">Add History</button></td>
+        </tr> 
         `
     });
 });
 }
 
 function SaveHistory() {
-  var history = document.getElementById('history').value;
-  //var db = firebase.firestore();
- 
+  
+}
+
+function DeletePatient(id) {
+  db.collection("Patients").doc(id).delete().then(() => {
+    console.log("Document successfully deleted!");
+}).catch((error) => {
+    console.error("Error removing document: ", error);
+});
+  
+}
+
+function UpdatePatient(id,first,last,born,dni) {
+
+  document.getElementById('name').value = first;
+  document.getElementById('last').value = last;
+  document.getElementById('born').value = born;
+  document.getElementById('DNI').value = dni;
+  var button=document.getElementById('mybutton')
+
+  button.innerHTML = 'Update';
+  button.onclick = function () {
+    
+    var washingtonRef = db.collection("Patients").doc(id);
+    var first = document.getElementById('name').value;
+    var last = document.getElementById('last').value;
+    var born = document.getElementById('born').value;
+    var DNI = document.getElementById('DNI').value;
+
+    // Set the "capital" field of the city 'DC'
+    return washingtonRef.update({
+      first: first,
+      last: last,
+      born: born,
+      DNI: DNI
+    })
+    .then(() => {
+        console.log("Document successfully updated!");
+        button.innerHTML = 'Add Patient';
+        document.getElementById('name').value = '';
+        document.getElementById('last').value = '';
+        document.getElementById('born').value = '';
+        document.getElementById('DNI').value = '';
+    })
+    .catch((error) => {
+        // The document probably doesn't exist.
+        console.error("Error updating document: ", error);
+    }); 
+  }
+
 }
 
 function Close() {
