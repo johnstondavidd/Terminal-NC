@@ -180,7 +180,7 @@ function PatientsSearch() {
             <td>${doc.data().DNI}</td>
             <td><button class="btn btn-warning" onclick="UpdatePatient('${doc.id}','${doc.data().first}','${doc.data().last}','${doc.data().born}','${doc.data().DNI}')">Edit</button></td>
             <td><button class="btn btn-danger" onclick="DeletePatient('${doc.id}')">Delete</button></td>
-            <td><button class="btn btn-success" onclick="SaveHistory('${doc.id}')">Add History</button></td>
+            <td><button class="btn btn-success" onclick="HistoryModal('${doc.id}')">Add History</button></td>
         </tr> 
         `
     });
@@ -188,16 +188,23 @@ function PatientsSearch() {
 });
 }
 
-function SaveHistory(id) {
+function HistoryModal(id) {
 
-  console.log("Entra a Savehistory");
+  console.log("Entra a JS Modal");
   var myModal = new bootstrap.Modal(document.getElementById('history-modal'))
   myModal.show()
   /* Aca es donde no se que hacer, necesito que con el onclick del SAVE me entre a otra funcion o hacer algo para 
      poder realizar la escritura en firebase del historial ingresado en el inputbox sin perder el id que lo traigo de
      la funcion anterior.
   */
+
+     var button=document.getElementById('Savebutton')
+     button.onclick = function SaveNewHistory(id) {
+      console.log("Entra a SaveNewHistory");
+    }
 }
+
+
 
 
 function DeletePatient(id) {
