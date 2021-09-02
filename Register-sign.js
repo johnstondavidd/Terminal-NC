@@ -184,12 +184,21 @@ function PatientsSearch() {
         </tr> 
         `
     });
+    
 });
 }
 
-function SaveHistory() {
-  
+function SaveHistory(id) {
+
+  console.log("Entra a Savehistory");
+  var myModal = new bootstrap.Modal(document.getElementById('history-modal'))
+  myModal.show()
+  /* Aca es donde no se que hacer, necesito que con el onclick del SAVE me entre a otra funcion o hacer algo para 
+     poder realizar la escritura en firebase del historial ingresado en el inputbox sin perder el id que lo traigo de
+     la funcion anterior.
+  */
 }
+
 
 function DeletePatient(id) {
   db.collection("Patients").doc(id).delete().then(() => {
@@ -211,14 +220,14 @@ function UpdatePatient(id,first,last,born,dni) {
   button.innerHTML = 'Update';
   button.onclick = function () {
     
-    var washingtonRef = db.collection("Patients").doc(id);
+    var DocRef = db.collection("Patients").doc(id);
     var first = document.getElementById('name').value;
     var last = document.getElementById('last').value;
     var born = document.getElementById('born').value;
     var DNI = document.getElementById('DNI').value;
 
     // Set the "capital" field of the city 'DC'
-    return washingtonRef.update({
+    return DocRef.update({
       first: first,
       last: last,
       born: born,

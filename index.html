@@ -48,7 +48,7 @@
          </div>
          <div class="modal-body">
             <input id="email" type="email" placeholder="Enter email">
-           <input id="password" type="password" placeholder="Enter password">
+            <input id="password" type="password" placeholder="Enter password">
          </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -57,6 +57,26 @@
        </div>
      </div>
     </div>
+
+    <!-- History Modal -->
+    <div class="modal fade" id="history-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+         <div class="modal-content">
+           <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel"></h5>
+             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+             <input id="history" type="history" placeholder="Enter history here">
+          </div>
+           <div class="modal-footer">
+             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+             <button type="button" class="btn btn-primary" onclick="SaveHistory()">Save</button>
+          </div>
+        </div>
+      </div>
+     </div>
+     
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper
