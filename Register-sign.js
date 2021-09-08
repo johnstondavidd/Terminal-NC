@@ -190,17 +190,14 @@ function PatientsSearch() {
 
 function HistoryModal(id) {
 
-  console.log("Entra a JS Modal");
+  console.log("You are going to add history to document", id);
   var myModal = new bootstrap.Modal(document.getElementById('history-modal'))
   myModal.show()
-  /* Aca es donde no se que hacer, necesito que con el onclick del SAVE me entre a otra funcion o hacer algo para 
-     poder realizar la escritura en firebase del historial ingresado en el inputbox sin perder el id que lo traigo de
-     la funcion anterior.
-  */
-
-     var button=document.getElementById('Savebutton')
-     button.onclick = function SaveNewHistory(id) {
-      console.log("Entra a SaveNewHistory");
+  var button=document.getElementById('Savebutton')
+  var history = document.getElementById('history')
+  button.onclick = function SaveNewHistory() {
+      console.log("Checking id: ", id); 
+    
     }
 }
 
