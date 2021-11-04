@@ -75,10 +75,12 @@ function Appear(user) {
         <div class="container-fluid">
           <a class="navbar-brand"></a>
           <div class="form-inline">
-            <input id="name" type="text" placeholder="Name" class="form-control mr-sm-2">
-            <input id="last" type="text" placeholder="Last" class="form-control mr-sm-2">
-            <input id="born" type="text" placeholder="Born (dd/mm/yyyyy)" class="form-control mr-sm-2">
             <input id="DNI" type="text" placeholder="DNI" class="form-control mr-sm-2">
+            <input id="name" type="text" placeholder="Complete Name" class="form-control mr-sm-2">
+            <input id="age" type="text" placeholder="Age" class="form-control mr-sm-2">
+            <input id="room" type="text" placeholder="Room and bed" class="form-control mr-sm-2">
+            <input id="cause" type="text" placeholder="Cause" class="form-control mr-sm-2">
+            <input id="data" type="text" placeholder="Relevant Data" class="form-control mr-sm-2">
             <button class="btn btn-outline-success my-2 my-sm-0" id="mybutton" onclick="SavePatient()">Add Patient</button>
           </div>
       </nav>
@@ -102,13 +104,15 @@ function Appear(user) {
         <thead>
           <tr>
             <th scope="col">ID</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Born</th>
             <th scope="col">DNI</th>
+            <th scope="col">Name</th>
+            <th scope="col">Age</th>
+            <th scope="col">Room and bed</th>
+            <th scope="col">Cause</th>
+            <th scope="col">Relevant Data</th>
             <th scope="col">Edit</th>
             <th scope="col">Delete</th>
-            <th scope="col">History</th>
+            <th scope="col">Comments</th>
           </tr>
         </thead>
         <tbody id="table">
@@ -129,27 +133,35 @@ function Appear(user) {
 function SavePatient() {
 
   var name = document.getElementById('name').value;
-  var last = document.getElementById('last').value;
-  var born = document.getElementById('born').value;
+  var age = document.getElementById('age').value;
+  var room = document.getElementById('room').value;
   var DNI = document.getElementById('DNI').value;
+  var cause = document.getElementById('cause').value;
+  var data = document.getElementById('data').value;
   //var db = firebase.firestore();
 
   db.collection("Patients").add({
-    first: name,
-    last: last,
-    born: born,
     DNI: DNI,
+    name: name,
+    age: age,
+    room: room,
+    cause: cause,
+    data: data,
+    
 })
 
   
 .then((docRef) => {
     console.log("Document written with ID: ", docRef.id);
-    document.getElementById('name').value='';
-    document.getElementById('last').value='';
-    document.getElementById('born').value='';
     document.getElementById('DNI').value='';
+    document.getElementById('name').value='';
+    document.getElementById('age').value='';
+    document.getElementById('room').value='';
+    document.getElementById('cause').value='';
+    document.getElementById('data').value='';
+    
     db.collection('Patients').doc(docRef.id)
-          .collection('History').add({
+          .collection('Comments').add({
         })
 
     
@@ -163,7 +175,7 @@ function SavePatient() {
 }
 
 function PatientsSearch() {
-  console.log("Entra a la funcion");
+  //console.log("Entra a la funcion");
   var search = document.getElementById('search').value;
   console.log("DNI: ", search);
   var table = document.getElementById('table');
@@ -174,28 +186,45 @@ function PatientsSearch() {
         table.innerHTML +=`
         <tr>
             <th scope="col">${doc.id}</th>
-            <td>${doc.data().first}</td>
-            <td>${doc.data().last}</td>
-            <td>${doc.data().born}</td>
             <td>${doc.data().DNI}</td>
-            <td><button class="btn btn-warning" onclick="UpdatePatient('${doc.id}','${doc.data().first}','${doc.data().last}','${doc.data().born}','${doc.data().DNI}')">Edit</button></td>
+            <td>${doc.data().name}</td>
+            <td>${doc.data().age}</td>
+            <td>${doc.data().room}</td>
+            <td>${doc.data().cause}</td>
+            <td>${doc.data().data}</td>
+            <td><button class="btn btn-warning" onclick="UpdatePatient('${doc.id}','${doc.data().DNI}','${doc.data().name}','${doc.data().age}','${doc.data().room}','${doc.data().cause}','${doc.data().data}')">Edit</button></td>
             <td><button class="btn btn-danger" onclick="DeletePatient('${doc.id}')">Delete</button></td>
-            <td><button class="btn btn-success" onclick="HistoryModal('${doc.id}')">Add History</button></td>
+            <td><button class="btn btn-success" onclick="CommentModal('${doc.id}')">Add Comment</button></td>
         </tr> 
         `
     });
     
+  });
+
+  var docRef = db.collection("Patientes").where("DNI", "==", search);
+
+    docRef.get().then((doc) => {
+    if (doc.exists) {
+        console.log("Document data:", doc.data());
+    } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+        var myModal = new bootstrap.Modal(document.getElementById('failed-search'))
+      myModal.show()
+    }
+}).catch((error) => {
+    console.log("Error getting document:", error);
 });
 }
 
-function HistoryModal(id) {
+function CommentModal(id) {
 
-  console.log("You are going to add history to document", id);
-  var myModal = new bootstrap.Modal(document.getElementById('history-modal'))
+  console.log("You are going to add comments to document", id);
+  var myModal = new bootstrap.Modal(document.getElementById('comment-modal'))
   myModal.show()
   var button=document.getElementById('Savebutton')
-  var history = document.getElementById('history')
-  button.onclick = function SaveNewHistory() {
+  var comment = document.getElementById('comment')
+  button.onclick = function SaveNewComment() {
       console.log("Checking id: ", id); 
     
     }
@@ -213,37 +242,47 @@ function DeletePatient(id) {
   
 }
 
-function UpdatePatient(id,first,last,born,dni) {
+function UpdatePatient(id,DNI,name,age,room,cause,data) {
 
-  document.getElementById('name').value = first;
-  document.getElementById('last').value = last;
-  document.getElementById('born').value = born;
-  document.getElementById('DNI').value = dni;
+  document.getElementById('DNI').value = DNI;
+  document.getElementById('name').value = name;
+  document.getElementById('age').value = age;
+  document.getElementById('room').value = room;
+  document.getElementById('cause').value = cause;
+  document.getElementById('data').value = data;
+  
   var button=document.getElementById('mybutton')
 
   button.innerHTML = 'Update';
   button.onclick = function () {
     
     var DocRef = db.collection("Patients").doc(id);
-    var first = document.getElementById('name').value;
-    var last = document.getElementById('last').value;
-    var born = document.getElementById('born').value;
     var DNI = document.getElementById('DNI').value;
+    var name = document.getElementById('name').value;
+    var age = document.getElementById('age').value;
+    var room = document.getElementById('room').value;
+    var cause = document.getElementById('cause').value;
+    var data = document.getElementById('data').value;
 
     // Set the "capital" field of the city 'DC'
     return DocRef.update({
-      first: first,
-      last: last,
-      born: born,
-      DNI: DNI
+      DNI: DNI,
+      name: name,
+      age: age,
+      room: room,
+      cause: cause,
+      data: data
     })
     .then(() => {
         console.log("Document successfully updated!");
         button.innerHTML = 'Add Patient';
-        document.getElementById('name').value = '';
-        document.getElementById('last').value = '';
-        document.getElementById('born').value = '';
         document.getElementById('DNI').value = '';
+        document.getElementById('name').value = '';
+        document.getElementById('age').value = '';
+        document.getElementById('room').value = '';
+        document.getElementById('cause').value = '';
+        document.getElementById('data').value = '';
+        
     })
     .catch((error) => {
         // The document probably doesn't exist.
