@@ -197,13 +197,14 @@ function PatientsSearch() {
             <td><button class="btn btn-success" onclick="CommentModal('${doc.id}')">Add Comment</button></td>
         </tr> 
         `
+        
     });
     
   });
 
-  var docRef = db.collection("Patientes").where("DNI", "==", search);
-
-    docRef.get().then((doc) => {
+  /*db.collection("Patients").where("DNI", "==", search).get()
+  .then((doc) => {
+    console.log("DNI: ", search);
     if (doc.exists) {
         console.log("Document data:", doc.data());
     } else {
@@ -214,7 +215,7 @@ function PatientsSearch() {
     }
 }).catch((error) => {
     console.log("Error getting document:", error);
-});
+});*/
 }
 
 function CommentModal(id) {
@@ -222,11 +223,15 @@ function CommentModal(id) {
   console.log("You are going to add comments to document", id);
   var myModal = new bootstrap.Modal(document.getElementById('comment-modal'))
   myModal.show()
+  
   var button=document.getElementById('Savebutton')
-  var comment = document.getElementById('comment')
   button.onclick = function SaveNewComment() {
-      console.log("Checking id: ", id); 
-    
+      var comment = document.getElementById('comment').value;
+      db.collection('Patients').doc(id).collection('Comments').add({
+        datetime: 'fecha y hora',
+        comment : comment
+      })
+      myModal.hide()
     }
 }
 
