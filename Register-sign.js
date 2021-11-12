@@ -56,7 +56,7 @@ function Observer() {
     } else {
       console.log('Active user doesnt exists')
       // User is signed out
-      // ...
+      // .....
     }
   });
 }
