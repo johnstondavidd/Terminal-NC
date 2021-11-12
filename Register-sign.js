@@ -160,9 +160,6 @@ function SavePatient() {
     document.getElementById('cause').value='';
     document.getElementById('data').value='';
     
-    db.collection('Patients').doc(docRef.id)
-          .collection('Comments').add({
-        })
 
     
     
@@ -175,14 +172,11 @@ function SavePatient() {
 }
 
 function PatientsSearch() {
-  //console.log("Entra a la funcion");
   var search = document.getElementById('search').value;
-  console.log("DNI: ", search);
-  var table = document.getElementById('table');
+  var flagsearch=0;
   db.collection("Patients").where("DNI", "==", search).onSnapshot((querySnapshot) => {
     table.innerHTML = '';
     querySnapshot.forEach((doc) => {
-        console.log(`${doc.id} => ${doc.data()}`);
         table.innerHTML +=`
         <tr>
             <th scope="col">${doc.id}</th>
@@ -197,25 +191,21 @@ function PatientsSearch() {
             <td><button class="btn btn-success" onclick="CommentModal('${doc.id}')">Add Comment</button></td>
         </tr> 
         `
-        
+        Patientexists();
     });
-    
-  });
-
-  /*db.collection("Patients").where("DNI", "==", search).get()
-  .then((doc) => {
-    console.log("DNI: ", search);
-    if (doc.exists) {
-        console.log("Document data:", doc.data());
-    } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
-        var myModal = new bootstrap.Modal(document.getElementById('failed-search'))
+    if (flagsearch==0) {
+      console.log("No such a document!");
+      var myModal = new bootstrap.Modal(document.getElementById('failed-search'))
       myModal.show()
     }
-}).catch((error) => {
-    console.log("Error getting document:", error);
-});*/
+    
+  });
+            function Patientexists(){
+              flagsearch=1;
+              console.log("Document exists!");    
+            }
+            
+            
 }
 
 function CommentModal(id) {
