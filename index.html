@@ -23,40 +23,61 @@
   <body>
 
     <h6>Patients Database (Beta) -- Digital systems - Final project ©</h6>
-    <h3 class="text-center">User Access</h3>
+
+    <h3 class="text-center">Add Patient</h3>
     <div class="container">
       <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
           <a class="navbar-brand"></a>
           <div class="form-inline">
-            <input id="email2" type="email" placeholder="Enter email" class="form-control mr-sm-2">
-            <input id="password2" type="password" placeholder="Enter password" class="form-control mr-sm-2">
-            <button class="btn btn-outline-success my-2 my-sm-0" data-bs-toggle="modal" data-bs-target="#exampleModal">Register Now!</button>
-            <button class="btn btn-outline-success my-2 my-sm-0" onclick="Sign()">Sign in</button>
+            <input id="DNI" type="text" placeholder="DNI" class="form-control mr-sm-2">
+            <input id="name" type="text" placeholder="Complete Name" class="form-control mr-sm-2">
+            <input id="age" type="text" placeholder="Age" class="form-control mr-sm-2">
+            <input id="room" type="text" placeholder="Room and bed" class="form-control mr-sm-2">
+            <input id="cause" type="text" placeholder="Cause" class="form-control mr-sm-2">
+            <input id="data" type="text" placeholder="Relevant Data" class="form-control mr-sm-2">
+            <button class="btn btn-outline-success my-2 my-sm-0" id="mybutton" onclick="SavePatient()">Add Patient</button>
           </div>
       </nav>
     </div>
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-     <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-           <h5 class="modal-title" id="exampleModalLabel"></h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-         </div>
-         <div class="modal-body">
-            <input id="email" type="email" placeholder="Enter email">
-            <input id="password" type="password" placeholder="Enter password">
-         </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" onclick="Register()">Register Now!</button>
-         </div>
-       </div>
-     </div>
+    
+    <h3 class="text-center">First Search Patient to add History</h3>
+    <div class="container">
+      <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand"></a>
+          <div class="form-inline">
+            <input id="search" type="text" placeholder="DNI" class="form-control mr-sm-2">
+            <button class="btn btn-outline-success my-2 my-sm-0" onclick="PatientsSearch()">Search</button>
+          </div>
+      </nav>
     </div>
+    
+   
+    <div class="mb-3">
+        <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">DNI</th>
+            <th scope="col">Name</th>
+            <th scope="col">Age</th>
+            <th scope="col">Room and bed</th>
+            <th scope="col">Cause</th>
+            <th scope="col">Relevant Data</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+            <th scope="col">Comments</th>
+          </tr>
+        </thead>
+        <tbody id="table">
+        </tbody>
+      </table>
+      </div>
+
+    
+
+    <button class="btn btn-danger position-absolute bottom-0 start-50 translate-middle-x" onclick="Close()">Logout</button>
 
     <!-- Comment Modal -->
     <div class="modal fade" id="comment-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
