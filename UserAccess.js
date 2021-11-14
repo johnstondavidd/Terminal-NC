@@ -72,7 +72,7 @@ function Appear(user) {
    // var win = window.open('file:///E:/Facultad/Proyecto%20de%20sist%20digitales/Proyecto%20FINAL/NC-Terminal/index.html', '_blank');
     
   if (win) {
-    //Browser has allowed it to be opened
+    //Browser has allowed it to be opened.
     win.focus();
   } else {
     //Browser has blocked it
