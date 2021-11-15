@@ -22,7 +22,7 @@
   </head>
   <body>
 
-    <h6>Patients Database (Beta) -- Digital systems - Final project ©</h6>
+    <h6>K&P Developments -- Patients Database (Beta) -- Digital systems - Final project ©</h6>
 
     <h3 class="text-center">Add Patient</h3>
     <div class="container">
@@ -41,7 +41,7 @@
       </nav>
     </div>
     
-    <h3 class="text-center">First Search Patient to add History</h3>
+    <h3 class="text-center">Patient Search</h3>
     <div class="container">
       <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
@@ -67,7 +67,8 @@
             <th scope="col">Relevant Data</th>
             <th scope="col">Edit</th>
             <th scope="col">Delete</th>
-            <th scope="col">Comments</th>
+            <th scope="col">Add comment </th>
+            <th scope="col">View Comments</th>
           </tr>
         </thead>
         <tbody id="table">
@@ -113,6 +114,32 @@
        </div>
       </div>
 
+          <!-- View Comments Modal -->
+    <div class="modal fade" id="viewcomments-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Comments</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Date / Time</th>
+                  <th scope="col">Comment</th>
+                </tr>
+              </thead>
+              <tbody id="viewtable">
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper

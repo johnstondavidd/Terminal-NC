@@ -61,6 +61,7 @@ function PatientsSearch() {
             <td><button class="btn btn-warning" onclick="UpdatePatient('${doc.id}','${doc.data().DNI}','${doc.data().name}','${doc.data().age}','${doc.data().room}','${doc.data().cause}','${doc.data().data}')">Edit</button></td>
             <td><button class="btn btn-danger" onclick="DeletePatient('${doc.id}')">Delete</button></td>
             <td><button class="btn btn-success" onclick="CommentModal('${doc.id}')">Add Comment</button></td>
+            <td><button class="btn btn-primary" onclick="ViewComments('${doc.id}')">View Comments</button></td>
         </tr> 
         `
         Patientexists();
@@ -83,6 +84,7 @@ function PatientsSearch() {
 function CommentModal(id) {
 
   console.log("You are going to add comments to document", id);
+  var Timestamp = firebase.firestore.Timestamp.fromDate(new Date());
   var myModal = new bootstrap.Modal(document.getElementById('comment-modal'))
   myModal.show()
   
@@ -90,14 +92,35 @@ function CommentModal(id) {
   button.onclick = function SaveNewComment() {
       var comment = document.getElementById('comment').value;
       db.collection('Patients').doc(id).collection('Comments').add({
-        datetime: 'fecha y hora',
-        comment : comment
+        comment : comment,
+        datetime: Timestamp,
+        prueba: Math.floor(Date.now() / 1000)
       })
       myModal.hide()
+      console.log("Comment added succesfully");
     }
 }
 
-
+function ViewComments(id) {
+  console.log("Viewing comments of:", id); 
+  var myModal = new bootstrap.Modal(document.getElementById('viewcomments-modal'))
+  myModal.show()
+  db.collection("Patients").doc(id).collection("Comments").orderBy("datetime", "desc").onSnapshot((querySnapshot) => {
+    viewtable.innerHTML = '';
+    querySnapshot.forEach((doc) => {
+      //var date = doc.datetime.toDate().toDateString();
+        viewtable.innerHTML +=`
+        <tr>  
+            <td>${doc.data().datetime}</td>
+            <td>${doc.data().comment}</td>
+        </tr> 
+        `
+    });
+    
+    
+  });
+  
+}
 
 
 function DeletePatient(id) {
