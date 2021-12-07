@@ -93,8 +93,8 @@ function CommentModal(id) {
       var comment = document.getElementById('comment').value;
       db.collection('Patients').doc(id).collection('Comments').add({
         comment : comment,
-        datetime: Timestamp,
-        prueba: Math.floor(Date.now() / 1000)
+        datetime: Timestamp.toDate().toDateString() +'     ' +Timestamp.toDate().toLocaleTimeString('es-ES'),
+        //prueba: Math.floor(Date.now() / 1000)
       })
       myModal.hide()
       console.log("Comment added succesfully");
@@ -108,7 +108,7 @@ function ViewComments(id) {
   db.collection("Patients").doc(id).collection("Comments").orderBy("datetime", "desc").onSnapshot((querySnapshot) => {
     viewtable.innerHTML = '';
     querySnapshot.forEach((doc) => {
-      //var date = doc.datetime.toDate().toDateString();
+
         viewtable.innerHTML +=`
         <tr>  
             <td>${doc.data().datetime}</td>
