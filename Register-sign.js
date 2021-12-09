@@ -182,6 +182,10 @@ function UpdatePatient(id,DNI,name,age,room,cause,data) {
 
 }
 
+function Display() {
+  location.href="file:///E:/Facultad/Proyecto%20de%20sist%20digitales/Proyecto%20FINAL/NC-Terminal/Display.html";
+}
+
 function Close() {
   firebase.auth().signOut()
   .then(function () {
