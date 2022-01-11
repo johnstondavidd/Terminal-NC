@@ -24,9 +24,13 @@
   <body onload="draw();">
 
     <h6>K&P Developments --Display center -- Digital systems - Final project ©</h6>
+    <h3 class='text-center'>Display Center</h3>
+    <button class="btn btn-success" id="display-btn" onclick="GoBack()">Go to Database</button>
 
+    <div style="text-align:center">   
+    <canvas id="canvas" width="800" height="980" style="background-color: rgb(230, 230, 227);"></canvas>
+    </div>   
     
-    <canvas id="canvas" width="1000" height="1000"></canvas>
     
     <!-- Optional JavaScript; choose one of the two! -->
 
@@ -40,6 +44,7 @@
     <script src="Fire-init.js"></script>
     <script src="UserAccess.js"></script>
     <script src="mqtt.js"></script>
+    <script src="Display.js"></script>
     <script src="canvas.js"></script>
 
   </body>
