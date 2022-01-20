@@ -1,5 +1,7 @@
 var bednumber;
 var myModal;
+var prueba = [];
+var bed;
 
 function draw() {
     var canvas = document.getElementById('canvas');
@@ -12,7 +14,7 @@ function draw() {
         var offsetY=canvasOffset.top;
         
         OutsideRect();
-        var bed = (function () {
+        bed = (function () {
 
             // BED Class
             function bed(id, text, xt, yt, x, y, width, height, fill, stroke, strokewidth) {
@@ -106,6 +108,8 @@ function draw() {
             }
             if (clicked.length > 0) {
                 alert("Clicked bed: " + clicked);
+               // var id1, text1, xt1, yt1, x1, y1, width1, height1, fill1, stroke1, strokewidth1;
+               // prueba.push(bed(id1, text1, xt1, yt1, x1, y1, width1, height1, fill1, stroke1, strokewidth1));
                 bednumber = clicked;
                 console.log("Selected bed:" + bednumber);   
                 myModal = new bootstrap.Modal(document.getElementById('DisplayModal'))

@@ -12,7 +12,7 @@ function SavePatient() {
   var data = document.getElementById('data').value;
   //var db = firebase.firestore();
 
-  db.collection("Patients").add({
+  db.collection("Patients").doc(DNI).set({
     DNI: DNI,
     name: name,
     age: age,
@@ -23,8 +23,8 @@ function SavePatient() {
 })
 
   
-.then((docRef) => {
-    console.log("Document written with ID: ", docRef.id);
+.then(() => {
+    console.log("Document written with ID: " + DNI);
     document.getElementById('DNI').value='';
     document.getElementById('name').value='';
     document.getElementById('age').value='';
