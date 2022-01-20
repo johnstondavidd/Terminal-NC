@@ -1,3 +1,6 @@
+var bednumber;
+var myModal;
+
 function draw() {
     var canvas = document.getElementById('canvas');
     
@@ -7,6 +10,7 @@ function draw() {
         var canvasOffset = $("#canvas").offset();
         var offsetX=canvasOffset.left;
         var offsetY=canvasOffset.top;
+        
         OutsideRect();
         var bed = (function () {
 
@@ -102,7 +106,14 @@ function draw() {
             }
             if (clicked.length > 0) {
                 alert("Clicked bed: " + clicked);
+                bednumber = clicked;
+                console.log("Selected bed:" + bednumber);   
+                myModal = new bootstrap.Modal(document.getElementById('DisplayModal'))
+                myModal.show()
+
             }
+
+            return bednumber;
         }
 
         
@@ -123,8 +134,7 @@ function draw() {
             }
         }
 
-
-
+        
         // Scalable bed entry
         var beds = [];
         beds.push(new bed("BED 1", "BED 1", 30, 40, 10, 10, 100, 50, "green", "black", 4));

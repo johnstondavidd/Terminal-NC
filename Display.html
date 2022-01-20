@@ -30,7 +30,77 @@
     <div style="text-align:center">
     <canvas id="canvas" width="800" height="700" style="background-color: rgb(230, 230, 227);"></canvas>
     </div> 
-    
+
+     <!-- BEDs Modal -->
+  <div class="modal fade" id="DisplayModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Bed Menu</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-outline-success" onclick="AddBed(bednumber)">Add Patient</button>
+          <button type="button" class="btn btn-outline-danger" onclick="ClearBed(bednumber)">Clear Bed</button>
+          <button type="button" class="btn btn-outline-primary" onclick="ShowBed(bednumber)">Show bed</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AddBed Modal -->
+  <div class="modal fade" id="addbed-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Adding patient</h5>
+          <input id="bedsearch" type="text" placeholder="DNI" class="form-control mr-sm-2">
+          <button class="btn btn-outline-success my-2 my-sm-0" onclick="PatientsSearch4bed()">Search</button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+
+          <div class="table-responsive-xxl">
+            <table class="table align-middle">
+              <thead>
+                <tr>
+                  <th scope="col">DNI</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Age</th>
+                  <th scope="col">Room and bed</th>
+                  <th scope="col">Cause</th>
+                  <th scope="col">Relevant Data</th>
+                  <th scope="col">Add</th>
+                </tr>
+              </thead>
+              <tbody id="addbedtable">
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Failed Search Modal -->
+  <div class="modal fade" id="failed-search2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+       <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Patient doesn't exist!</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+           <div class="modal-footer">
+           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+           </div>
+        </div>
+     </div>
+    </div>
     
     <!-- Optional JavaScript; choose one of the two! -->
 
@@ -47,6 +117,7 @@
     <script src="Display.js"></script>
     <script src="canvas.js"></script>
     <script src="jQuery.js"></script>
+    <script src="beds.js"></script>
 
   </body>
 
