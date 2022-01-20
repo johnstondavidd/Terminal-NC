@@ -93,7 +93,7 @@ function draw() {
             mouseX = parseInt(e.clientX - offsetX);
             mouseY = parseInt(e.clientY - offsetY);
 
-            // Put your mousedown stuff here
+            // Onclick
             var clicked = "";
             for (var i = 0; i < beds.length; i++) {
                 if (beds[i].isPointInside(mouseX, mouseY)) {
@@ -105,12 +105,12 @@ function draw() {
             }
         }
 
-        //
+        
         function handleMouseMove(e) {
             mouseX = parseInt(e.clientX - offsetX);
             mouseY = parseInt(e.clientY - offsetY);
 
-            // Put your mousemove stuff here
+            
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             for (var i = 0; i < beds.length; i++) {
                 if (beds[i].isPointInside(mouseX, mouseY)) {

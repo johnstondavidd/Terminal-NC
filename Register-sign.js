@@ -154,7 +154,7 @@ function UpdatePatient(id,DNI,name,age,room,cause,data) {
     var cause = document.getElementById('cause').value;
     var data = document.getElementById('data').value;
 
-    // Set the "capital" field of the city 'DC'
+    
     return DocRef.update({
       DNI: DNI,
       name: name,
@@ -165,6 +165,9 @@ function UpdatePatient(id,DNI,name,age,room,cause,data) {
     })
     .then(() => {
         console.log("Document successfully updated!");
+        button.onclick=function(){
+          SavePatient();
+         }
         button.innerHTML = 'Add Patient';
         document.getElementById('DNI').value = '';
         document.getElementById('name').value = '';
