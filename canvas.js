@@ -1,7 +1,11 @@
-var bednumber;
+let bednumber;
 var myModal;
-var prueba = [];
-var bed;
+let beds = [];
+let bed;
+var addbedmodal;
+let bedstate = 0;
+let occuped = 1;
+let free = 0;
 
 function draw() {
     var canvas = document.getElementById('canvas');
@@ -67,9 +71,21 @@ function draw() {
                 ctx.fillText(this.text, this.xt, this.yt);
                 ctx.restore();
             }
-
+            
             bed.prototype.isPointInside = function (x, y) {
                 return (x >= this.x && x <= this.x + this.width && y >= this.y && y <= this.y + this.height);  
+            }
+
+            bed.prototype.setText = function(t){
+                this.text = t;
+            }
+
+            bed.prototype.setColour = function(f){
+                this.fill = f;
+            }
+        
+            bed.prototype.printText = function(){
+                console.log(this.text);
             }
 
             return bed;
@@ -108,8 +124,6 @@ function draw() {
             }
             if (clicked.length > 0) {
                 alert("Clicked bed: " + clicked);
-               // var id1, text1, xt1, yt1, x1, y1, width1, height1, fill1, stroke1, strokewidth1;
-               // prueba.push(bed(id1, text1, xt1, yt1, x1, y1, width1, height1, fill1, stroke1, strokewidth1));
                 bednumber = clicked;
                 console.log("Selected bed:" + bednumber);   
                 myModal = new bootstrap.Modal(document.getElementById('DisplayModal'))
@@ -139,31 +153,96 @@ function draw() {
         }
 
         
+       /* var showCurrentBedText = function(){
+            beds.forEach(element => {
+                element.printText();
+            });
+        }; */   
+        
         // Scalable bed entry
-        var beds = [];
-        beds.push(new bed("BED 1", "BED 1", 30, 40, 10, 10, 100, 50, "green", "black", 4));
-        beds.push(new bed("BED 2", "BED 2", 30, 110, 10, 80, 100, 50, "green", "black", 4));
-        beds.push(new bed("BED 3", "BED 3", 30, 180, 10, 150, 100, 50, "green", "black", 4));
-        beds.push(new bed("BED 4", "BED 4", 30, 250, 10, 220, 100, 50, "green", "black", 4));
-        beds.push(new bed("BED 5", "BED 5", 30, 320, 10, 290, 100, 50, "green", "black", 4));
-        beds.push(new bed("BED 6", "BED 6", 30, 390, 10, 360, 100, 50, "green", "black", 4));
-        beds.push(new bed("BED 7", "BED 7", 30, 460, 10, 430, 100, 50, "green", "black", 4));
-        beds.push(new bed("BED 8", "BED 8", 30, 530, 10, 500, 100, 50, "green", "black", 4));
-        beds.push(new bed("BED 9", "BED 9", 30, 600, 10, 570, 100, 50, "green", "black", 4));
-        beds.push(new bed("BED 10", "BED 10", 30, 670, 10, 640, 100, 50, "green", "black", 4));
-        beds.push(new bed("BED 11", "BED 11", 705, 40, 685, 10, 100, 50, "green", "black", 4));
-        beds.push(new bed("BED 12", "BED 12", 705, 110, 685, 80, 100, 50, "green", "black", 4));
-        beds.push(new bed("BED 13", "BED 13", 705, 180, 685, 150, 100, 50, "green", "black", 4));
-        beds.push(new bed("BED 14", "BED 14", 705, 250, 685, 220, 100, 50, "green", "black", 4));
-        beds.push(new bed("BED 15", "BED 15", 705, 320, 685, 290, 100, 50, "green", "black", 4));
-        beds.push(new bed("BED 16", "BED 16", 705, 390, 685, 360, 100, 50, "green", "black", 4));
-        beds.push(new bed("BED 17", "BED 17", 705, 460, 685, 430, 100, 50, "green", "black", 4));
-        beds.push(new bed("BED 18", "BED 18", 705, 530, 685, 500, 100, 50, "green", "black", 4));
-        beds.push(new bed("BED 19", "BED 19", 705, 600, 685, 570, 100, 50, "green", "black", 4));
-        beds.push(new bed("BED 20", "BED 20", 705, 670, 685, 640, 100, 50, "green", "black", 4));
+        beds = [];
+        beds.push(new bed("1", "BED 1", 30, 40, 10, 10, 100, 50, "green", "black", 4));
+        beds.push(new bed("2", "BED 2", 30, 110, 10, 80, 100, 50, "green", "black", 4));
+        beds.push(new bed("3", "BED 3", 30, 180, 10, 150, 100, 50, "green", "black", 4));
+        beds.push(new bed("4", "BED 4", 30, 250, 10, 220, 100, 50, "green", "black", 4));
+        beds.push(new bed("5", "BED 5", 30, 320, 10, 290, 100, 50, "green", "black", 4));
+        beds.push(new bed("6", "BED 6", 30, 390, 10, 360, 100, 50, "green", "black", 4));
+        beds.push(new bed("7", "BED 7", 30, 460, 10, 430, 100, 50, "green", "black", 4));
+        beds.push(new bed("8", "BED 8", 30, 530, 10, 500, 100, 50, "green", "black", 4));
+        beds.push(new bed("9", "BED 9", 30, 600, 10, 570, 100, 50, "green", "black", 4));
+        beds.push(new bed("10", "BED 10", 30, 670, 10, 640, 100, 50, "green", "black", 4));
+        beds.push(new bed("11", "BED 11", 705, 40, 685, 10, 100, 50, "green", "black", 4));
+        beds.push(new bed("12", "BED 12", 705, 110, 685, 80, 100, 50, "green", "black", 4));
+        beds.push(new bed("13", "BED 13", 705, 180, 685, 150, 100, 50, "green", "black", 4));
+        beds.push(new bed("14", "BED 14", 705, 250, 685, 220, 100, 50, "green", "black", 4));
+        beds.push(new bed("15", "BED 15", 705, 320, 685, 290, 100, 50, "green", "black", 4));
+        beds.push(new bed("16", "BED 16", 705, 390, 685, 360, 100, 50, "green", "black", 4));
+        beds.push(new bed("17", "BED 17", 705, 460, 685, 430, 100, 50, "green", "black", 4));
+        beds.push(new bed("18", "BED 18", 705, 530, 685, 500, 100, 50, "green", "black", 4));
+        beds.push(new bed("19", "BED 19", 705, 600, 685, 570, 100, 50, "green", "black", 4));
+        beds.push(new bed("20", "BED 20", 705, 670, 685, 640, 100, 50, "green", "black", 4));
+
+        console.log("camas, estado inicial:")
+
+       //change text of bed 2
+        /*beds.forEach(element => {
+            if(element.id == "BED 2"){
+                element.setText("BED 2 MODIFIED BY ID");
+            }
+        }
+        );*/
+        
+        //change text of any bed with id equals to "BED 2"
+        /*beds.forEach(element => {
+            if(element.id == "BED 2"){
+                element.setText("BED 2 MODIFIED BY ID");
+            }
+        }
+        );
+        
+        console.log("camas, despues de cambiar estado una busqueda por indice");
+        showCurrentBedText();*/
+        
+        //change text of any bed with color equals to "green"
+        /*beds.forEach(element => {
+            if(element.fill == "green"){
+                element.setText("BED MODIFIED BY COLOR");
+            }
+        }
+        );
+        
+        console.log("camas, despues de cambiar estado una busqueda por color fill");
+        showCurrentBedText();*/
+        
 
         $("#canvas").click(handleMouseDown);
         $("#canvas").mousemove(handleMouseMove);
+
+        /*console.log(bednumber)
+        beds[1].setText("BED 2 MODIFIED BY INDEX");
+        showCurrentBedText();
+        
+        console.log("camas, despues de cambiar estado usando indice");
+        showCurrentBedText();*/
+      
+     
+        
+                
+        
+        
+       
         
     }
+
+    
   }
+
+/*var showCurrentBedText = function(){
+    beds.forEach(element => {
+        element.printText();
+    });
+};*/
+
+
+
+ 

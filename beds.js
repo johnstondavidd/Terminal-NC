@@ -1,17 +1,20 @@
+//var bednumber;
+var myModal;
+//var beds = [];
+//var prueba = [];
+//var bed;
 var addbedmodal;
-var bedstate = 0;
-var occuped = 1;
-var free = 0;
+//var bedstate = 0;
+//var occuped = 1;
+//var free = 0;
 
 function AddBed(bednumber) {
     myModal.hide();
     console.log("AddBed " + bednumber);
     addbedmodal = new bootstrap.Modal(document.getElementById('addbed-modal'))
-    addbedmodal.show()
-        
-}
+    addbedmodal.show()}
 
-function ClearBed() {
+  function ClearBed() {
     console.log("ClearBed "+ bednumber); 
 }
 
@@ -53,5 +56,27 @@ function PatientsSearch4bed() {
 function Bedpatient(DNI,name,age,cause) {
     addbedmodal.hide()
     bedstate = occuped;
-    console.log("Asigning  " + DNI + " - " + name + " - " + age + " - " + cause +  " - " + bedstate +  " - " + prueba); 
+    console.log("Asigning  " + DNI + " - " + name + " - " + age + " - " + cause +  " - " + bedstate +  " - " + bednumber); 
+    beds.forEach(element => {
+        if(element.id == bednumber){
+            element.setText("BED 2 MODIFIED BY ID");
+        }
+    }
+    );
+
+    var showCurrentBedText = function(){
+        beds.forEach(element => {
+            element.printText();
+        });
+    };
+    showCurrentBedText();
+    //bed[bednumber].printText();
 }
+
+var showCurrentBedText = function(){
+    beds.forEach(element => {
+        element.printText();
+    });
+};
+
+
