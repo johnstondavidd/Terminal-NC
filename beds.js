@@ -57,25 +57,33 @@ function Bedpatient(DNI,name,age,cause) {
     addbedmodal.hide()
     bedstate = occuped;
     console.log("Asigning  " + DNI + " - " + name + " - " + age + " - " + cause +  " - " + bedstate +  " - " + bednumber); 
+    // No me lo muestra aca
+    showBed();
+    showCurrentBedText();
+}
+
+var showBed = function () {
+    // Hasta aca me llega bien el dato bednumber
+    console.log("bednumber =   " + bednumber); 
     beds.forEach(element => {
         if(element.id == bednumber){
-            element.setText("BED 2 MODIFIED BY ID");
+            element.setText("BED "+ bednumber +" MODIFIED BY ID");
         }
     }
     );
-
-    var showCurrentBedText = function(){
-        beds.forEach(element => {
-            element.printText();
-        });
-    };
-    showCurrentBedText();
-    //bed[bednumber].printText();
+    beds.forEach(element => {
+        if(element.id == bednumber){
+            element.printText("BED "+ bednumber +" MODIFIED BY ID");
+        }
+    }
+    );
 }
 
 var showCurrentBedText = function(){
     beds.forEach(element => {
-        element.printText();
+        if(element.id == bednumber){
+            element.printText("BED "+ bednumber +" MODIFIED BY ID");
+        }
     });
 };
 
