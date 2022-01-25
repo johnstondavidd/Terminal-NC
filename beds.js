@@ -45,6 +45,10 @@ function AddBed(bednumber) {
     myModal.hide();
     bedstate = free;
     console.log("Bed  "+ bednumber +  " is free   "  + bedstate); 
+    showDNI = 0
+    showname = 0
+    showage = 0
+    showcause = 0
 }
 
 
