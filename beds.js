@@ -1,25 +1,81 @@
-//var bednumber;
-var myModal;
-//var beds = [];
-//var prueba = [];
-//var bed;
+var myModal
 var addbedmodal;
-//var bedstate = 0;
-//var occuped = 1;
-//var free = 0;
+var showDNI;
+var showname;
+var showage;
+var showcause;
+
+var fillbed = function () {
+        beds.forEach(element => {
+        if(element.id == bednumber){
+            element.setColour("blue");
+        }
+    }
+    );
+    beds.forEach(element => {
+        if(element.id == bednumber){
+            element.printColour();
+        }
+    }
+    );
+}
+
 
 function AddBed(bednumber) {
     myModal.hide();
-    console.log("AddBed " + bednumber);
+    console.log("AddBed" + bednumber);
     addbedmodal = new bootstrap.Modal(document.getElementById('addbed-modal'))
-    addbedmodal.show()}
+    addbedmodal.show()
+}
 
   function ClearBed() {
     console.log("ClearBed "+ bednumber); 
+    beds.forEach(element => {
+        if(element.id == bednumber){
+            element.setColour("green");
+        }
+    }
+    );
+    beds.forEach(element => {
+        if(element.id == bednumber){
+            element.printColour();
+        }
+    }
+    );
+    myModal.hide();
+    bedstate = free;
+    console.log("Bed  "+ bednumber +  " is free   "  + bedstate); 
 }
 
+
+function Bedpatient(DNI,name,age,cause) {
+    addbedmodal.hide()
+    bedstate = occuped;
+    console.log("Asigning  " + DNI + " - " + name + " - " + age + " - " + cause +  " - " + bedstate +  " - " + bednumber); 
+    fillbed();
+    showDNI = DNI;
+    showname = name;
+    showage = age;
+    showcause = cause;
+    
+}
+
+
 function ShowBed() {
-    console.log("Showbed "+ bednumber); 
+    console.log("Showbed "+showDNI + showname + showage + showcause + bednumber); 
+    showbedtable.innerHTML = '';
+        showbedtable.innerHTML +=`
+        <tr>
+            <td>${showDNI}</td>
+            <td>${showname}</td>
+            <td>${showage}</td>
+            <td>${showcause}</td>
+        </tr> 
+        `
+        myModal.hide();
+        console.log("Showing" + bednumber);
+        showbedmodal = new bootstrap.Modal(document.getElementById('showbed-modal'))
+        showbedmodal.show()
 }
 
 function PatientsSearch4bed() {
@@ -53,38 +109,5 @@ function PatientsSearch4bed() {
     });           
 }
 
-function Bedpatient(DNI,name,age,cause) {
-    addbedmodal.hide()
-    bedstate = occuped;
-    console.log("Asigning  " + DNI + " - " + name + " - " + age + " - " + cause +  " - " + bedstate +  " - " + bednumber); 
-    // No me lo muestra aca
-    showBed();
-    showCurrentBedText();
-}
-
-var showBed = function () {
-    // Hasta aca me llega bien el dato bednumber
-    console.log("bednumber =   " + bednumber); 
-    beds.forEach(element => {
-        if(element.id == bednumber){
-            element.setText("BED "+ bednumber +" MODIFIED BY ID");
-        }
-    }
-    );
-    beds.forEach(element => {
-        if(element.id == bednumber){
-            element.printText("BED "+ bednumber +" MODIFIED BY ID");
-        }
-    }
-    );
-}
-
-var showCurrentBedText = function(){
-    beds.forEach(element => {
-        if(element.id == bednumber){
-            element.printText("BED "+ bednumber +" MODIFIED BY ID");
-        }
-    });
-};
 
 
