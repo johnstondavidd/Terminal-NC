@@ -6,7 +6,7 @@ var msg;
 function EventoConectar() {
   console.log("Conectado a MQTT");
   client.subscribe("data");
-  client.publish("data","01A20");
+  //client.publish("data","01A08");
 }
 
 function EventoMensaje(topic, message) {

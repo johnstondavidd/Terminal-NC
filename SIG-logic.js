@@ -1,5 +1,6 @@
 var roombedcall;
 var tigcom;
+
 var fillbedred = function () {
    beds.forEach(element => {
    if(element.id == rbc){
@@ -9,6 +10,21 @@ var fillbedred = function () {
 );
 beds.forEach(element => {
    if(element.id == rbc){
+       element.printColour();
+   }
+}
+);
+}
+
+var fillbedyellow = function () {
+   beds.forEach(element => {
+   if(element.id == resetbed){
+       element.setColour("yellow");
+   }
+}
+);
+beds.forEach(element => {
+   if(element.id == resetbed){
        element.printColour();
    }
 }
@@ -63,8 +79,8 @@ function TIGCOM(msg) {
            var tigbed = StringArray.slice(3,5);
            var tigbedreset = tigbed.join('');
            resetbed = tigbedreset.toString();
-           console.log("Filling blue again bed " + resetbed)
-           resetcall();
+           console.log("Filling yellow bed " + resetbed)
+           fillbedyellow();
            //Change TIG state to busy
            
            break;
@@ -74,6 +90,7 @@ function TIGCOM(msg) {
            break;
          case "T":
             console.log("TIG " + tigcom + " Finish the assistance")
+            resetcall();
             //Change TIG state to free
            break;
          default:
