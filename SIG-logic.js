@@ -1,34 +1,89 @@
-function CallEvent(msg) {
-console.log(msg.toString());
-//var cadenaVerso = "Hola que tal";
-JSON.stringify(msg);
-console.log(msg.toString() + typeof(msg));
-//dividirCadena(msg);    
+var roombedcall;
+var tigcom;
+var fillbedred = function () {
+   beds.forEach(element => {
+   if(element.id == rbc){
+       element.setColour("red");
+   }
+}
+);
+beds.forEach(element => {
+   if(element.id == rbc){
+       element.printColour();
+   }
+}
+);
 }
 
-/*function SplitString(msg, separador) {
-    var StringArray = msg.split(separador);
-    document.write('<p>La cadena original es: "' + msg + '"');
-    document.write('<br>El separador es: "' + separador + '"');
-    document.write("<br>El array tiene " + StringArray.length + " elementos: ");
- 
-    for (var i=0; i < StringArray.length; i++) {
-       document.write(StringArray[i] + " / ");
-    }
+var resetcall = function () {
+   beds.forEach(element => {
+   if(element.id == resetbed){
+       element.setColour("blue");
+   }
+}
+);
+beds.forEach(element => {
+   if(element.id == resetbed){
+       element.printColour();
+   }
+}
+);
+}
 
- }*/
- function dividirCadena(cadenaADividir) {
-    var separador = " ";
-    var arrayDeCadenas = cadenaADividir.split("");
-    document.write('<p>La cadena original es: "' + cadenaADividir + '"');
-    document.write("<br>El array tiene " + arrayDeCadenas.length + " elementos: ");
- 
-    for (var i=0; i < arrayDeCadenas.length; i++) {
-       document.write(arrayDeCadenas[i] + " / ");
-    }
+ function CallEvent(msg) {
+    var StringArray = msg.split("");
+    if (StringArray[0] == "B") {
+
+      roombedcall = StringArray.slice(1,3);
+      rbc = roombedcall.join('')
+      console.log("Incoming call from bed " + rbc)
+      fillbedred();
+
+    }else                     {
+      console.log("Its not a Bed call")
+      TIGCOM(msg);
+      
+   }
+
  }
  
+function TIGCOM(msg) {
+   console.log("Comunication from TIG --> " + msg)
+   var StringArray = msg.split("");
+    if (StringArray[0] !== "B") {
+      tigArray = StringArray.slice(0,2);
+      tigcom = tigArray.join('')
+      console.log("Incoming message from TIG Nº " + tigcom)
+      var t = StringArray.slice(2,3);
+      tigmsg = t.toString();
 
+      switch (tigmsg) {
+         case "A":
+           console.log("TIG " + tigcom + " Accept the assistance")
+           var tigbed = StringArray.slice(3,5);
+           var tigbedreset = tigbed.join('');
+           resetbed = tigbedreset.toString();
+           console.log("Filling blue again bed " + resetbed)
+           resetcall();
+           //Change TIG state to busy
+           
+           break;
+         case "D":
+            console.log("TIG " + tigcom + " Decline the assistance")
+            //Go to somewhere to send again the assistance to another TIG
+           break;
+         case "T":
+            console.log("TIG " + tigcom + " Finish the assistance")
+            //Change TIG state to free
+           break;
+         default:
+
+           break;
+       }
+      
+    }
+   
+}
 
  
  

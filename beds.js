@@ -5,7 +5,7 @@ var showname;
 var showage;
 var showcause;
 
-var fillbed = function () {
+var fillbedblue = function () {
         beds.forEach(element => {
         if(element.id == bednumber){
             element.setColour("blue");
@@ -56,7 +56,7 @@ function Bedpatient(DNI,name,age,cause) {
     addbedmodal.hide()
     bedstate = occuped;
     console.log("Asigning  " + DNI + " - " + name + " - " + age + " - " + cause +  " - " + bedstate +  " - " + bednumber); 
-    fillbed();
+    fillbedblue();
     showDNI = DNI;
     showname = name;
     showage = age;
