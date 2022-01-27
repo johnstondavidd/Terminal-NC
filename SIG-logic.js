@@ -72,6 +72,7 @@ function TIGCOM(msg) {
       console.log("Incoming message from TIG Nº " + tigcom)
       var t = StringArray.slice(2,3);
       tigmsg = t.toString();
+      msg="";
 
       switch (tigmsg) {
          case "A":

@@ -113,20 +113,20 @@ function draw() {
         function OutsideRect() {
             
             ctx.lineWidth = 3;
-            ctx.strokeRect(0,0,800,700);
-            ctx.strokeRect(0,0,250,700);
-            ctx.strokeRect(0,0,550,700);
+            ctx.strokeRect(0,0,800,560);
+            ctx.strokeRect(0,0,250,560);
+            ctx.strokeRect(0,0,550,560);
 
             ctx.strokeRect(0,140,250,140);
             ctx.strokeRect(0,280,250,140);
             ctx.strokeRect(0,420,250,140);
-            ctx.strokeRect(0,560,250,140);
+            //ctx.strokeRect(0,560,250,140);
       
 
             ctx.strokeRect(550,140,250,140);
             ctx.strokeRect(550,280,250,140);
             ctx.strokeRect(550,420,250,140);
-            ctx.strokeRect(550,560,250,140);
+           // ctx.strokeRect(550,560,250,140);
 
         }
 
@@ -188,18 +188,15 @@ function draw() {
         beds.push(new bed(6, "BED 6", 30, 390, 10, 360, 100, 50, "green", "black", 4));
         beds.push(new bed(7, "BED 7", 30, 460, 10, 430, 100, 50, "green", "black", 4));
         beds.push(new bed(8, "BED 8", 30, 530, 10, 500, 100, 50, "green", "black", 4));
-        beds.push(new bed(9, "BED 9", 30, 600, 10, 570, 100, 50, "green", "black", 4));
-        beds.push(new bed(10, "BED 10", 30, 670, 10, 640, 100, 50, "green", "black", 4));
-        beds.push(new bed(11, "BED 11", 705, 40, 685, 10, 100, 50, "green", "black", 4));
-        beds.push(new bed(12, "BED 12", 705, 110, 685, 80, 100, 50, "green", "black", 4));
-        beds.push(new bed(13, "BED 13", 705, 180, 685, 150, 100, 50, "green", "black", 4));
-        beds.push(new bed(14, "BED 14", 705, 250, 685, 220, 100, 50, "green", "black", 4));
-        beds.push(new bed(15, "BED 15", 705, 320, 685, 290, 100, 50, "green", "black", 4));
-        beds.push(new bed(16, "BED 16", 705, 390, 685, 360, 100, 50, "green", "black", 4));
-        beds.push(new bed(17, "BED 17", 705, 460, 685, 430, 100, 50, "green", "black", 4));
-        beds.push(new bed(18, "BED 18", 705, 530, 685, 500, 100, 50, "green", "black", 4));
-        beds.push(new bed(19, "BED 19", 705, 600, 685, 570, 100, 50, "green", "black", 4));
-        beds.push(new bed(20, "BED 20", 705, 670, 685, 640, 100, 50, "green", "black", 4));
+        beds.push(new bed(9, "BED 9", 705, 40, 685, 10, 100, 50, "green", "black", 4));
+        beds.push(new bed(10, "BED 10", 705, 110, 685, 80, 100, 50, "green", "black", 4));
+        beds.push(new bed(11, "BED 11", 705, 180, 685, 150, 100, 50, "green", "black", 4));
+        beds.push(new bed(12, "BED 12", 705, 250, 685, 220, 100, 50, "green", "black", 4));
+        beds.push(new bed(13, "BED 13", 705, 320, 685, 290, 100, 50, "green", "black", 4));
+        beds.push(new bed(14, "BED 14", 705, 390, 685, 360, 100, 50, "green", "black", 4));
+        beds.push(new bed(15, "BED 15", 705, 460, 685, 430, 100, 50, "green", "black", 4));
+        beds.push(new bed(16, "BED 16", 705, 530, 685, 500, 100, 50, "green", "black", 4));
+
 
         console.log("camas, estado inicial:")
 
