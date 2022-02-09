@@ -57,6 +57,30 @@ function Bedpatient(DNI,name,age,cause) {
     bedstate = occuped;
     console.log("Asigning  " + DNI + " - " + name + " - " + age + " - " + cause +  " - " + bedstate +  " - " + bednumber); 
     fillbedblue();
+    beds.forEach(element => {
+        if(element.id == bednumber){
+            element.setPatient(name);
+            console.log("Bed obj Patient: " + element.patient)
+        }
+    }
+    );
+    
+    beds.forEach(element => {
+        if(element.id == bednumber){
+            element.setCause(cause);
+            console.log("Bed obj Cause: " + element.cause)
+        }
+    }
+    );
+
+    beds.forEach(element => {
+        if(element.id == bednumber){
+            element.setState("occupied");
+            console.log("Bed obj State: " + element.state)
+        }
+    }
+    );
+    
     showDNI = DNI;
     showname = name;
     showage = age;

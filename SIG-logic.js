@@ -1,107 +1,174 @@
 var roombedcall;
 var tigcom;
 
-var fillbedred = function () {
+var fillbedred = function (bednum) {
    beds.forEach(element => {
-   if(element.id == rbc){
+   if(element.id == bednum){
        element.setColour("red");
    }
 }
 );
 beds.forEach(element => {
-   if(element.id == rbc){
+   if(element.id == bednum){
        element.printColour();
+   }
+}
+);
+
+beds.forEach(element => {
+   if(element.id == bednum){
+       element.setState("call");
    }
 }
 );
 }
 
-var fillbedyellow = function () {
+var fillbedyellow = function (bednum) {
    beds.forEach(element => {
-   if(element.id == resetbed){
+   if(element.id == bednum){
        element.setColour("yellow");
    }
 }
 );
+
 beds.forEach(element => {
-   if(element.id == resetbed){
+   if(element.id == bednum){
        element.printColour();
+   }
+}
+);
+
+beds.forEach(element => {
+   if(element.id == bednum){
+       element.setState("attending");
    }
 }
 );
 }
 
-var resetcall = function () {
+var resetcall = function (bednum) {
    beds.forEach(element => {
-   if(element.id == resetbed){
+   if(element.id == bednum){
        element.setColour("blue");
    }
 }
 );
 beds.forEach(element => {
-   if(element.id == resetbed){
+   if(element.id == bednum){
        element.printColour();
+   }
+}
+);
+
+beds.forEach(element => {
+   if(element.id == bednum){
+       element.setState("occupied");
    }
 }
 );
 }
 
- function CallEvent(msg) {
-    var StringArray = msg.split("");
-    if (StringArray[0] == "B") {
-
-      roombedcall = StringArray.slice(1,3);
-      rbc = roombedcall.join('')
-      console.log("Incoming call from bed " + rbc)
-      fillbedred();
-
-    }else                     {
-      console.log("Its not a Bed call")
-      TIGCOM(msg);
-      
-   }
-
+ function CallEvent() {
+    fillbedred(bednum);
+    TIGCOM(bednum);
  }
  
-function TIGCOM(msg) {
-   console.log("Comunication from TIG --> " + msg)
-   var StringArray = msg.split("");
-    if (StringArray[0] !== "B") {
-      tigArray = StringArray.slice(0,2);
-      tigcom = tigArray.join('')
-      console.log("Incoming message from TIG Nº " + tigcom)
-      var t = StringArray.slice(2,3);
-      tigmsg = t.toString();
-      msg="";
+var TIGCOM = function (bn) {
+   var TIGid;
+   beds.forEach(element => {
+      if(element.id == bn){
+         TIGid = element.TIGid;
+      }
+   }
+   );
 
-      switch (tigmsg) {
-         case "A":
-           console.log("TIG " + tigcom + " Accept the assistance")
-           var tigbed = StringArray.slice(3,5);
-           var tigbedreset = tigbed.join('');
-           resetbed = tigbedreset.toString();
-           console.log("Filling yellow bed " + resetbed)
-           fillbedyellow();
-           //Change TIG state to busy
-           
-           break;
-         case "D":
-            console.log("TIG " + tigcom + " Decline the assistance")
-            //Go to somewhere to send again the assistance to another TIG
-           break;
-         case "T":
-            console.log("TIG " + tigcom + " Finish the assistance")
-            resetcall();
-            //Change TIG state to free
-           break;
-         default:
-
-           break;
+   TIGs.forEach(element => {
+      if(element.id == TIGid && element.state == "free"){
+         console.log("Making call of bed " + bn + " to TIG " + element.id);
+       beds.forEach(element => {
+          if(element.id == bn){
+         const data = {
+            //ID: TIGid,
+            bed: bn,
+            room: element.room,
+            patient: element.patient,
+            diagnosis: element.cause,
+            }
+         const str = JSON.stringify(data);
+         console.log(str)
+         client.publish("SIGR/TIG", str);
+         
+         }
        }
+       );
+    
+      } 
+
+      if(element.id == TIGid && element.state == "occupied"){
+      TIGSelect();
+      } 
+
+
       
-    }
+
+   }
+   );
+
+   
    
 }
 
+function TIGANSWER(msg) {
+   var obj = JSON.parse(msg);
+   bednum = obj.bed;
+   var answer = obj.answer;
+   switch (answer) {
+      case "A":
+         fillbedyellow(bednum);
+         var t = obj.TIGID;
+         TIGOccupied(t);
+      break;
+
+      case "D":
+         TIGSelect();
+      break;
+
+      case "F":
+         resetcall(bednum);
+         var tt = obj.TIGID;
+         TIGFree(tt);
+         
+      break;
+   
+      default:
+         break;
+   }  
+}
+
+function Recall() {
+   console.log("Volver a enviar mensaje")
+}
+
+function TIGSelect() {
+console.log("Making the call to another TIG ");
+}
+
+function TIGOccupied(tid) {
+   TIGs.forEach(element => {
+      if(element.id == tid){
+          element.setState("occupied");
+      }
+   }
+   );
+}
+
+function TIGFree(tid) {
+   TIGs.forEach(element => {
+      if(element.id == tid){
+          element.setState("free");
+      }
+   }
+   );
+}
  
  
