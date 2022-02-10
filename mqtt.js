@@ -10,7 +10,7 @@ function EventoConectar() {
 }
 
 var EventoMensaje = function (topic, message) {
-  if (c >=1) {
+  if (c >=2) {
     if (topic == "SIGR/bed") {
       bednum = message.toString();
       console.log("Msg recieved from bed " + bednum)

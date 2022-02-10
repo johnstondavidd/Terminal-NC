@@ -230,8 +230,11 @@ function draw() {
         beds.push(new bed(16, "08", "BED 16", 705, 530, 685, 500, 100, 50, "green", "black", 4, "free","02"));
 
         TIGs = [];
-        TIGs.push(new TIG("01", "free"));
+        TIGs.push(new TIG("01", "occupied"));
         TIGs.push(new TIG("02", "free"));
+        TIGs.push(new TIG("03", "occupied"));
+        TIGs.push(new TIG("04", "occupied"));
+        TIGs.push(new TIG("05", "occupied"));
 
         $("#canvas").click(handleMouseDown);
         $("#canvas").mousemove(handleMouseMove); 
