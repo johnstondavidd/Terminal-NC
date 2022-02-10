@@ -1,5 +1,3 @@
-var roombedcall;
-var tigcom;
 
 var fillbedred = function (bednum) {
    beds.forEach(element => {
@@ -83,12 +81,13 @@ var TIGCOM = function (bn) {
    );
 
    TIGs.forEach(element => {
+      console.log("Element ID " + element.id + "Element state "+ element.state)
       if(element.id == TIGid && element.state == "free"){
          console.log("Making call of bed " + bn + " to TIG " + element.id);
        beds.forEach(element => {
           if(element.id == bn){
          const data = {
-            //ID: TIGid,
+            ID: TIGid,
             bed: bn,
             room: element.room,
             patient: element.patient,

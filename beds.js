@@ -1,9 +1,5 @@
 var myModal
 var addbedmodal;
-var showDNI;
-var showname;
-var showage;
-var showcause;
 
 var fillbedblue = function () {
         beds.forEach(element => {
@@ -33,6 +29,7 @@ function AddBed(bednumber) {
     beds.forEach(element => {
         if(element.id == bednumber){
             element.setColour("green");
+            element.setState("free");
         }
     }
     );
@@ -43,7 +40,6 @@ function AddBed(bednumber) {
     }
     );
     myModal.hide();
-    bedstate = free;
     console.log("Bed  "+ bednumber +  " is free   "  + bedstate); 
     showDNI = 0
     showname = 0
@@ -54,9 +50,17 @@ function AddBed(bednumber) {
 
 function Bedpatient(DNI,name,age,cause) {
     addbedmodal.hide()
-    bedstate = occuped;
-    console.log("Asigning  " + DNI + " - " + name + " - " + age + " - " + cause +  " - " + bedstate +  " - " + bednumber); 
+    console.log("Asigning  " + DNI + " - " + name + " - " + age + " - " + cause +  " - " + bednumber); 
     fillbedblue();
+
+    beds.forEach(element => {
+        if(element.id == bednumber){
+            element.setDNI(DNI);
+            console.log("Bed obj DNI: " + element.DNI)
+        }
+    }
+    );
+
     beds.forEach(element => {
         if(element.id == bednumber){
             element.setPatient(name);
@@ -65,6 +69,14 @@ function Bedpatient(DNI,name,age,cause) {
     }
     );
     
+    beds.forEach(element => {
+        if(element.id == bednumber){
+            element.setAge(age);
+            console.log("Bed obj Age: " + element.age)
+        }
+    }
+    );
+
     beds.forEach(element => {
         if(element.id == bednumber){
             element.setCause(cause);
@@ -81,25 +93,30 @@ function Bedpatient(DNI,name,age,cause) {
     }
     );
     
-    showDNI = DNI;
-    showname = name;
-    showage = age;
-    showcause = cause;
-    
 }
 
 
 function ShowBed() {
-    console.log("Showbed "+showDNI + showname + showage + showcause + bednumber); 
-    showbedtable.innerHTML = '';
-        showbedtable.innerHTML +=`
-        <tr>
-            <td>${showDNI}</td>
-            <td>${showname}</td>
-            <td>${showage}</td>
-            <td>${showcause}</td>
-        </tr> 
-        `
+     beds.forEach(element => {
+        if(element.id == bednumber){
+            console.log("Bed obj DNI: " + element.DNI)
+            console.log("Bed obj Patient: " + element.patient)
+            console.log("Bed obj Age: " + element.age)
+            console.log("Bed obj Cause: " + element.cause)
+            showbedtable.innerHTML = '';
+            showbedtable.innerHTML +=`
+             <tr>
+                    <td>${element.DNI}</td>
+                    <td>${element.patient}</td>
+                    <td>${element.age}</td>
+                    <td>${element.cause}</td>
+             </tr> 
+            `
+        }
+    }
+    );
+    
+    
         myModal.hide();
         console.log("Showing" + bednumber);
         showbedmodal = new bootstrap.Modal(document.getElementById('showbed-modal'))

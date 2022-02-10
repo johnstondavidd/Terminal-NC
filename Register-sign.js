@@ -6,7 +6,7 @@ function SavePatient() {
 
   var name = document.getElementById('name').value;
   var age = document.getElementById('age').value;
-  var room = document.getElementById('room').value;
+  //var room = document.getElementById('room').value;
   var DNI = document.getElementById('DNI').value;
   var cause = document.getElementById('cause').value;
   var data = document.getElementById('data').value;
@@ -16,7 +16,6 @@ function SavePatient() {
     DNI: DNI,
     name: name,
     age: age,
-    room: room,
     cause: cause,
     data: data,
     
@@ -28,7 +27,6 @@ function SavePatient() {
     document.getElementById('DNI').value='';
     document.getElementById('name').value='';
     document.getElementById('age').value='';
-    document.getElementById('room').value='';
     document.getElementById('cause').value='';
     document.getElementById('data').value='';
     
@@ -55,10 +53,9 @@ function PatientsSearch() {
             <td>${doc.data().DNI}</td>
             <td>${doc.data().name}</td>
             <td>${doc.data().age}</td>
-            <td>${doc.data().room}</td>
             <td>${doc.data().cause}</td>
             <td>${doc.data().data}</td>
-            <td><button class="btn btn-warning" onclick="UpdatePatient('${doc.id}','${doc.data().DNI}','${doc.data().name}','${doc.data().age}','${doc.data().room}','${doc.data().cause}','${doc.data().data}')">Edit</button></td>
+            <td><button class="btn btn-warning" onclick="UpdatePatient('${doc.id}','${doc.data().DNI}','${doc.data().name}','${doc.data().age}','${doc.data().cause}','${doc.data().data}')">Edit</button></td>
             <td><button class="btn btn-danger" onclick="DeletePatient('${doc.id}')">Delete</button></td>
             <td><button class="btn btn-success" onclick="CommentModal('${doc.id}')">Add Comment</button></td>
             <td><button class="btn btn-primary" onclick="ViewComments('${doc.id}')">View Comments</button></td>
@@ -132,12 +129,11 @@ function DeletePatient(id) {
   
 }
 
-function UpdatePatient(id,DNI,name,age,room,cause,data) {
+function UpdatePatient(id,DNI,name,age,cause,data) {
 
   document.getElementById('DNI').value = DNI;
   document.getElementById('name').value = name;
   document.getElementById('age').value = age;
-  document.getElementById('room').value = room;
   document.getElementById('cause').value = cause;
   document.getElementById('data').value = data;
   
@@ -150,7 +146,6 @@ function UpdatePatient(id,DNI,name,age,room,cause,data) {
     var DNI = document.getElementById('DNI').value;
     var name = document.getElementById('name').value;
     var age = document.getElementById('age').value;
-    var room = document.getElementById('room').value;
     var cause = document.getElementById('cause').value;
     var data = document.getElementById('data').value;
 
@@ -159,7 +154,6 @@ function UpdatePatient(id,DNI,name,age,room,cause,data) {
       DNI: DNI,
       name: name,
       age: age,
-      room: room,
       cause: cause,
       data: data
     })
@@ -172,7 +166,6 @@ function UpdatePatient(id,DNI,name,age,room,cause,data) {
         document.getElementById('DNI').value = '';
         document.getElementById('name').value = '';
         document.getElementById('age').value = '';
-        document.getElementById('room').value = '';
         document.getElementById('cause').value = '';
         document.getElementById('data').value = '';
         

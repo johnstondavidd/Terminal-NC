@@ -1,12 +1,9 @@
 let bednumber;
 var myModal;
-let beds = [];
-let TIGs = [];
-let bed;
+var beds = [];
+var TIGs = [];
+var bed;
 var addbedmodal;
-let bedstate = 0;
-let occuped = 1;
-let free = 0;
 
 function draw() {
     var canvas = document.getElementById('canvas');
@@ -22,7 +19,7 @@ function draw() {
         bed = (function () {
 
             // BED Class
-            function bed(id, room, text, xt, yt, x, y, width, height, fill, stroke, strokewidth, state, TIGid, patient, cause) {
+            function bed(id, room, text, xt, yt, x, y, width, height, fill, stroke, strokewidth, state, TIGid, DNI, patient, age, cause) {
                 this.id = id;
                 this.room = room;
                 this.text = text;
@@ -36,9 +33,11 @@ function draw() {
                 this.stroke = stroke;
                 this.strokewidth = strokewidth || 2;
                 this.state = state;
-                this.patient = patient;
-                this.cause = cause;
                 this.TIGid = TIGid;
+                this.DNI = DNI;
+                this.patient = patient;
+                this.age = age;
+                this.cause = cause;
                 this.redraw(this.x, this.y);
                 return (this);
             }
@@ -98,8 +97,16 @@ function draw() {
                 this.state = o;
             }
 
+            bed.prototype.setDNI = function(d){
+                this.DNI = d;
+            }
+
             bed.prototype.setPatient = function(p){
                 this.patient = p;
+            }
+
+            bed.prototype.setAge = function(a){
+                this.age = a;
             }
 
             bed.prototype.setCause = function(c){
@@ -154,13 +161,11 @@ function draw() {
             ctx.strokeRect(0,140,250,140);
             ctx.strokeRect(0,280,250,140);
             ctx.strokeRect(0,420,250,140);
-            //ctx.strokeRect(0,560,250,140);
-      
-
+    
             ctx.strokeRect(550,140,250,140);
             ctx.strokeRect(550,280,250,140);
             ctx.strokeRect(550,420,250,140);
-           // ctx.strokeRect(550,560,250,140);
+           
 
         }
 
@@ -205,13 +210,6 @@ function draw() {
             }
         }
 
-        
-       /* var showCurrentBedText = function(){
-            beds.forEach(element => {
-                element.printText();
-            });
-        }; */   
-        
         // Scalable bed entry
         beds = [];
         beds.push(new bed(1, "01", "BED 1", 30, 40, 10, 10, 100, 50, "green", "black", 4, "free", "01"));
@@ -235,65 +233,13 @@ function draw() {
         TIGs.push(new TIG("01", "free"));
         TIGs.push(new TIG("02", "free"));
 
-
-       //change text of bed 2
-        /*beds.forEach(element => {
-            if(element.id == "BED 2"){
-                element.setText("BED 2 MODIFIED BY ID");
-            }
-        }
-        );*/
-        
-        //change text of any bed with id equals to "BED 2"
-        /*beds.forEach(element => {
-            if(element.id == "BED 2"){
-                element.setText("BED 2 MODIFIED BY ID");
-            }
-        }
-        );
-        
-        console.log("camas, despues de cambiar estado una busqueda por indice");
-        showCurrentBedText();*/
-        
-        //change text of any bed with color equals to "green"
-        /*beds.forEach(element => {
-            if(element.fill == "green"){
-                element.setText("BED MODIFIED BY COLOR");
-            }
-        }
-        );
-        
-        console.log("camas, despues de cambiar estado una busqueda por color fill");
-        showCurrentBedText();*/
-        
-
         $("#canvas").click(handleMouseDown);
-        $("#canvas").mousemove(handleMouseMove);
-
-        /*console.log(bednumber)
-        beds[1].setText("BED 2 MODIFIED BY INDEX");
-        showCurrentBedText();
-        
-        console.log("camas, despues de cambiar estado usando indice");
-        showCurrentBedText();*/
-      
-     
-        
-                
-        
-        
-       
+        $("#canvas").mousemove(handleMouseMove); 
         
     }
 
     
   }
-
-/*var showCurrentBedText = function(){
-    beds.forEach(element => {
-        element.printText();
-    });
-};*/
 
 
 
