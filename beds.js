@@ -26,6 +26,47 @@ function AddBed(bednumber) {
 
   function ClearBed() {
     console.log("ClearBed "+ bednumber); 
+
+    beds.forEach(element => {
+        if(element.id == bednumber){
+            element.setDNI("");
+            console.log("Bed obj DNI: " + element.DNI)
+        }
+    }
+    );
+
+    beds.forEach(element => {
+        if(element.id == bednumber){
+            element.setPatient("");
+            console.log("Bed obj Patient: " + element.patient)
+        }
+    }
+    );
+    
+    beds.forEach(element => {
+        if(element.id == bednumber){
+            element.setAge("");
+            console.log("Bed obj Age: " + element.age)
+        }
+    }
+    );
+
+    beds.forEach(element => {
+        if(element.id == bednumber){
+            element.setCause("");
+            console.log("Bed obj Cause: " + element.cause)
+        }
+    }
+    );
+
+    beds.forEach(element => {
+        if(element.id == bednumber){
+            element.setState("occupied");
+            console.log("Bed obj State: " + element.state)
+        }
+    }
+    );
+
     beds.forEach(element => {
         if(element.id == bednumber){
             element.setColour("green");
@@ -40,11 +81,7 @@ function AddBed(bednumber) {
     }
     );
     myModal.hide();
-    console.log("Bed  "+ bednumber +  " is free   "  + bedstate); 
-    showDNI = 0
-    showname = 0
-    showage = 0
-    showcause = 0
+    console.log("Bed  "+ bednumber +  " is free"); 
 }
 
 
