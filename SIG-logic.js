@@ -1,5 +1,5 @@
 
-
+var counter = 0;
 
 var fillbedred = function (bednum) {
    beds.forEach(element => {
@@ -85,7 +85,8 @@ var TIGCOM = function (bn) {
    TIGs.forEach(element => {
       if(element.id == TIGid && element.state == "free"){
          console.log("Making call of bed " + bn + " to TIG " + element.id);
-       beds.forEach(element => {
+         MqttPublish(bn, TIGid);
+       /*beds.forEach(element => {
           if(element.id == bn){
          const data = {
             ID: TIGid,
@@ -100,12 +101,12 @@ var TIGCOM = function (bn) {
          
          }
        }
-       );
+       );*/
     
       } 
 
       if(element.id == TIGid && element.state == "occupied"){
-      TIGSelect(TIGid);
+      TIGSelect(TIGid, bn);
       } 
 
 
@@ -119,6 +120,7 @@ var TIGCOM = function (bn) {
 }
 
 function TIGANSWER(msg) {
+   
    var obj = JSON.parse(msg);
    bednum = obj.bed;
    var answer = obj.answer;
@@ -127,6 +129,7 @@ function TIGANSWER(msg) {
          fillbedyellow(bednum);
          var t = obj.TIGID;
          TIGOccupied(t);
+         counter = 0;
       break;
 
       case "D":
@@ -140,6 +143,19 @@ function TIGANSWER(msg) {
          TIGFree(ttt);
          
       break;
+
+     /* case "T":
+         console.log("Counter :" + counter)
+         counter = counter + 1;
+         var tt2 = obj.TIGID;
+         if (counter > 3 && tt2 != tt) {
+            var tt = obj.TIGID;
+            TIGSelect(tt, bednum);
+            counter = 0;
+         }
+         TIGCOM(bednum);
+         
+      break;*/
    
       default:
          break;
@@ -157,7 +173,9 @@ function TIGSelect(tig, bn) {
          if (element.state == "free") {
             console.log("Making call of bed " + bn + " to TIG " + element.id);
             var IDTIG = element.id
-            beds.forEach(element => {
+            MqttPublish(bn, IDTIG);
+            flag=1;
+            /*beds.forEach(element => {
                if(element.id == bn){
               const data = {
                  ID: IDTIG,
@@ -173,33 +191,9 @@ function TIGSelect(tig, bn) {
 
               }
             }
-            ); 
+            ); */
              
          }
-
-         /*if (element.id < tig && flag == 0 ) {
-            console.log("Making call of bed " + bn + " to TIG " + element.id);
-            var IDTIG2 = element.id
-            beds.forEach(element => {
-               if(element.id == bn){
-              const data = {
-                 ID: IDTIG2,
-                 bed: bn,
-                 room: element.room,
-                 patient: element.patient,
-                 diagnosis: element.cause,
-                 }
-              const str = JSON.stringify(data);
-              console.log(str)
-              client.publish("SIGR/TIG", str);
-              flag=1;
-              }
-            }
-            ); 
-             
-         }*/
-         
-    
       } 
    }
    );
@@ -209,7 +203,9 @@ function TIGSelect(tig, bn) {
          if (element.state == "free") {
             console.log("Making call of bed " + bn + " to TIG " + element.id);
             var IDTIG = element.id
-            beds.forEach(element => {
+            MqttPublish(bn, IDTIG);
+            flag=1;
+            /*beds.forEach(element => {
                if(element.id == bn){
               const data = {
                  ID: IDTIG,
@@ -221,76 +217,18 @@ function TIGSelect(tig, bn) {
               const str = JSON.stringify(data);
               console.log(str)
               client.publish("SIGR/TIG", str);
-              flag=1;
+              
 
               }
             }
-            ); 
+            ); */
              
          }
-
-         /*if (element.id < tig && flag == 0 ) {
-            console.log("Making call of bed " + bn + " to TIG " + element.id);
-            var IDTIG2 = element.id
-            beds.forEach(element => {
-               if(element.id == bn){
-              const data = {
-                 ID: IDTIG2,
-                 bed: bn,
-                 room: element.room,
-                 patient: element.patient,
-                 diagnosis: element.cause,
-                 }
-              const str = JSON.stringify(data);
-              console.log(str)
-              client.publish("SIGR/TIG", str);
-              flag=1;
-              }
-            }
-            ); 
-             
-         }*/
-         
-    
       } 
    }
    );
 
 }
-/*console.log("Making the call to another TIG ");
-var FreeTIGs=[];
-
-TIGs.forEach(element => {
-   if(element.id != tig && element.state == "free"){
-      FreeTIGs.push(element.id)
-   }
-}
-);
-console.log("Free TIGs "+ FreeTIGs)
-var Lenght = TIGs.length;
-var tigint = parseInt(tig, 10);
-var nextTIG = tigint + 1;
-
- if(nextTIG <= Lenght){
-      console.log("Entro al if y hay cargados " + Lenght)
-      if (nextTIG <= 9) {
-         var TIGVector = [];
-         TIGVector[0] = "0";
-         TIGVector[1] = nextTIG.toString();
-         var nextTIG2 = TIGVector.join('');
-         console.log("nextTIG2 " + nextTIG2);
-      }
-      FreeTIGs.forEach(element => {
-         if (nextTIG == element) {
-            console.log ("llamar al TIG " + element)
-         }
-        GoBack(nextTIG); 
-      }
-      );
-   }
-   //nextTIG = 1;*/
- 
-
 
 function TIGOccupied(tid) {
    TIGs.forEach(element => {
@@ -310,4 +248,25 @@ function TIGFree(tid) {
    );
 }
  
- 
+function MqttPublish(bn, IDTIG) {
+  
+   beds.forEach(element => {
+      if(element.id == bn){
+     const data = {
+        ID: IDTIG,
+        bed: bn,
+        room: element.room,
+        patient: element.patient,
+        diagnosis: element.cause,
+        }
+     const str = JSON.stringify(data);
+     console.log(str)
+     client.publish("SIGR/TIG", str);
+     //flag=1;
+
+     }
+   }
+   ); 
+
+}
+
