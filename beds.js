@@ -2,14 +2,14 @@ var myModal
 var addbedmodal;
 
 var fillbedblue = function () {
-        beds.forEach(element => {
-        if(element.id == bednumber){
+    beds.forEach(element => {
+        if (element.id == bednumber) {
             element.setColour("blue");
         }
     }
     );
     beds.forEach(element => {
-        if(element.id == bednumber){
+        if (element.id == bednumber) {
             element.printColour();
         }
     }
@@ -24,11 +24,11 @@ function AddBed(bednumber) {
     addbedmodal.show()
 }
 
-  function ClearBed() {
-    console.log("ClearBed "+ bednumber); 
+function ClearBed() {
+    console.log("ClearBed " + bednumber);
 
     beds.forEach(element => {
-        if(element.id == bednumber){
+        if (element.id == bednumber) {
             element.setDNI("");
             console.log("Bed obj DNI: " + element.DNI)
         }
@@ -36,15 +36,15 @@ function AddBed(bednumber) {
     );
 
     beds.forEach(element => {
-        if(element.id == bednumber){
+        if (element.id == bednumber) {
             element.setPatient("");
             console.log("Bed obj Patient: " + element.patient)
         }
     }
     );
-    
+
     beds.forEach(element => {
-        if(element.id == bednumber){
+        if (element.id == bednumber) {
             element.setAge("");
             console.log("Bed obj Age: " + element.age)
         }
@@ -52,7 +52,7 @@ function AddBed(bednumber) {
     );
 
     beds.forEach(element => {
-        if(element.id == bednumber){
+        if (element.id == bednumber) {
             element.setCause("");
             console.log("Bed obj Cause: " + element.cause)
         }
@@ -60,7 +60,7 @@ function AddBed(bednumber) {
     );
 
     beds.forEach(element => {
-        if(element.id == bednumber){
+        if (element.id == bednumber) {
             element.setState("occupied");
             console.log("Bed obj State: " + element.state)
         }
@@ -68,30 +68,30 @@ function AddBed(bednumber) {
     );
 
     beds.forEach(element => {
-        if(element.id == bednumber){
+        if (element.id == bednumber) {
             element.setColour("green");
             element.setState("free");
         }
     }
     );
     beds.forEach(element => {
-        if(element.id == bednumber){
+        if (element.id == bednumber) {
             element.printColour();
         }
     }
     );
     myModal.hide();
-    console.log("Bed  "+ bednumber +  " is free"); 
+    console.log("Bed  " + bednumber + " is free");
 }
 
 
-function Bedpatient(DNI,name,age,cause) {
+function Bedpatient(DNI, name, age, cause) {
     addbedmodal.hide()
-    console.log("Asigning  " + DNI + " - " + name + " - " + age + " - " + cause +  " - " + bednumber); 
+    console.log("Asigning  " + DNI + " - " + name + " - " + age + " - " + cause + " - " + bednumber);
     fillbedblue();
 
     beds.forEach(element => {
-        if(element.id == bednumber){
+        if (element.id == bednumber) {
             element.setDNI(DNI);
             console.log("Bed obj DNI: " + element.DNI)
         }
@@ -99,15 +99,15 @@ function Bedpatient(DNI,name,age,cause) {
     );
 
     beds.forEach(element => {
-        if(element.id == bednumber){
+        if (element.id == bednumber) {
             element.setPatient(name);
             console.log("Bed obj Patient: " + element.patient)
         }
     }
     );
-    
+
     beds.forEach(element => {
-        if(element.id == bednumber){
+        if (element.id == bednumber) {
             element.setAge(age);
             console.log("Bed obj Age: " + element.age)
         }
@@ -115,7 +115,7 @@ function Bedpatient(DNI,name,age,cause) {
     );
 
     beds.forEach(element => {
-        if(element.id == bednumber){
+        if (element.id == bednumber) {
             element.setCause(cause);
             console.log("Bed obj Cause: " + element.cause)
         }
@@ -123,25 +123,25 @@ function Bedpatient(DNI,name,age,cause) {
     );
 
     beds.forEach(element => {
-        if(element.id == bednumber){
+        if (element.id == bednumber) {
             element.setState("occupied");
             console.log("Bed obj State: " + element.state)
         }
     }
     );
-    
+
 }
 
 
 function ShowBed() {
-     beds.forEach(element => {
-        if(element.id == bednumber){
+    beds.forEach(element => {
+        if (element.id == bednumber) {
             console.log("Bed obj DNI: " + element.DNI)
             console.log("Bed obj Patient: " + element.patient)
             console.log("Bed obj Age: " + element.age)
             console.log("Bed obj Cause: " + element.cause)
             showbedtable.innerHTML = '';
-            showbedtable.innerHTML +=`
+            showbedtable.innerHTML += `
              <tr>
                     <td>${element.DNI}</td>
                     <td>${element.patient}</td>
@@ -152,21 +152,21 @@ function ShowBed() {
         }
     }
     );
-    
-    
-        myModal.hide();
-        console.log("Showing" + bednumber);
-        showbedmodal = new bootstrap.Modal(document.getElementById('showbed-modal'))
-        showbedmodal.show()
+
+
+    myModal.hide();
+    console.log("Showing" + bednumber);
+    showbedmodal = new bootstrap.Modal(document.getElementById('showbed-modal'))
+    showbedmodal.show()
 }
 
 function PatientsSearch4bed() {
     var search = document.getElementById('bedsearch').value;
-    var flagsearch=0;
+    var flagsearch = 0;
     db.collection("Patients").where("DNI", "==", search).onSnapshot((querySnapshot) => {
-      addbedtable.innerHTML = '';
-      querySnapshot.forEach((doc) => {
-          addbedtable.innerHTML +=`
+        addbedtable.innerHTML = '';
+        querySnapshot.forEach((doc) => {
+            addbedtable.innerHTML += `
           <tr>
               <td>${doc.data().DNI}</td>
               <td>${doc.data().name}</td>
@@ -177,18 +177,23 @@ function PatientsSearch4bed() {
               <td><button class="btn btn-success" onclick="Bedpatient('${doc.data().DNI}','${doc.data().name}','${doc.data().age}','${doc.data().cause}')">Add</button></td>
           </tr> 
           `
-          Patientexists1();
+            Patientexists1();
         });
-        if (flagsearch==0) {
+        if (flagsearch == 0) {
             console.log("No such a document!");
-            alert("Document doesn't exists!. Please add it to the database or try again ");
-          }
-          
-                  function Patientexists1(){
-                    flagsearch=1;
-                    console.log("Document exists!");    
-                  } 
-    });           
+            var a = document.getElementById('alert-search-patient-does-not-exist');
+            a.classList.remove('invisible');
+            a.classList.add('visible');
+        }
+
+        function Patientexists1() {
+            flagsearch = 1;
+            console.log("Document exists!");
+            var a = document.getElementById('alert-search-patient-does-not-exist');
+            a.classList.remove('visible');
+            a.setAttribute("style", "visibility:collapse;");
+        }
+    });
 }
 
 

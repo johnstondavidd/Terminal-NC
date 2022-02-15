@@ -1,21 +1,21 @@
 var db = firebase.firestore();
 
 function Register() {
-    var email = document.getElementById('email').value;
-    var password = document.getElementById('password').value;
+  var email = document.getElementById('email').value;
+  var password = document.getElementById('password').value;
 
-    firebase.auth().createUserWithEmailAndPassword(email, password)
-  .then(function(){
-    
-    Verify()
-  })
-  .catch((error) => {
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    console.log(errorCode);
-    console.log(errorMessage);
-    // ..
-  });
+  firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then(function () {
+
+      Verify()
+    })
+    .catch((error) => {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log(errorCode);
+      console.log(errorMessage);
+      // ..
+    });
 }
 
 function Sign() {
@@ -23,17 +23,17 @@ function Sign() {
   var password2 = document.getElementById('password2').value;
 
   firebase.auth().signInWithEmailAndPassword(email2, password2)
-  .then((userCredential) => {
-    // Signed in
-    var user = userCredential.user;
-    // ...
-  })
-  .catch((error) => {
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    console.log(errorCode);
-    console.log(errorMessage);
-  });
+    .then((userCredential) => {
+      // Signed in
+      var user = userCredential.user;
+      // ...
+    })
+    .catch((error) => {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log(errorCode);
+      console.log(errorMessage);
+    });
   Observer();
 }
 
@@ -68,31 +68,31 @@ function Appear(user) {
   var user = user;
   var content = document.getElementById('content');
   if (user.emailVerified) {
-      location.href="file:///E:/Facultad/Proyecto%20de%20sist%20digitales/Proyecto%20FINAL/NC-Terminal/index.html";
-   // var win = window.open('file:///E:/Facultad/Proyecto%20de%20sist%20digitales/Proyecto%20FINAL/NC-Terminal/index.html', '_blank');
-    
-  if (win) {
-    //Browser has allowed it to be opened.
-    win.focus();
-  } else {
-    //Browser has blocked it
-    alert('Please allow popups for this website');
-    alert('Please Verify your email')
-}
+    location.href = "file:///E:/Facultad/Proyecto%20de%20sist%20digitales/Proyecto%20FINAL/NC-Terminal/index.html";
+    // var win = window.open('file:///E:/Facultad/Proyecto%20de%20sist%20digitales/Proyecto%20FINAL/NC-Terminal/index.html', '_blank');
+
+    if (win) {
+      //Browser has allowed it to be opened.
+      win.focus();
+    } else {
+      //Browser has blocked it
+      alert('Please allow popups for this website');
+      alert('Please Verify your email')
+    }
 
   }
-  
+
 }
 
 function Verify() {
-    var user = firebase.auth().currentUser;
+  var user = firebase.auth().currentUser;
   user.sendEmailVerification()
-  .then(function() {
-    console.log('Sending email...')
-    // Email sent.
-  })
-  .catch(function(error) {
-    console.log(error)
-    // An error happened.
-  });
-  }
+    .then(function () {
+      console.log('Sending email...')
+      // Email sent.
+    })
+    .catch(function (error) {
+      console.log(error)
+      // An error happened.
+    });
+}
