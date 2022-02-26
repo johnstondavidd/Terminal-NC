@@ -86,7 +86,7 @@ function draw() {
             }
 
             bed.prototype.printText = function () {
-                console.log(this.text);
+                console.log(this.id, " ", this.room, " ", this.text, " ", this.fill, " ", this.state, " ", this.DNI, " ", this.patient, " ", this.age, " ", this.cause);
             }
 
             bed.prototype.setColour = function (f) {
@@ -212,22 +212,22 @@ function draw() {
 
         // Scalable bed entry
         beds = [];
-        beds.push(new bed(1, "01", "BED 1", 30, 40, 10, 10, 100, 50, "green", "black", 4, "free", "01"));
-        beds.push(new bed(2, "01", "BED 2", 30, 110, 10, 80, 100, 50, "green", "black", 4, "free", "01"));
-        beds.push(new bed(3, "02", "BED 3", 30, 180, 10, 150, 100, 50, "green", "black", 4, "free", "01"));
-        beds.push(new bed(4, "02", "BED 4", 30, 250, 10, 220, 100, 50, "green", "black", 4, "free", "01"));
-        beds.push(new bed(5, "03", "BED 5", 30, 320, 10, 290, 100, 50, "green", "black", 4, "free", "01"));
-        beds.push(new bed(6, "03", "BED 6", 30, 390, 10, 360, 100, 50, "green", "black", 4, "free", "01"));
-        beds.push(new bed(7, "04", "BED 7", 30, 460, 10, 430, 100, 50, "green", "black", 4, "free", "01"));
-        beds.push(new bed(8, "04", "BED 8", 30, 530, 10, 500, 100, 50, "green", "black", 4, "free", "01"));
-        beds.push(new bed(9, "05", "BED 9", 705, 40, 685, 10, 100, 50, "green", "black", 4, "free", "02"));
-        beds.push(new bed(10, "05", "BED 10", 705, 110, 685, 80, 100, 50, "green", "black", 4, "free", "02"));
-        beds.push(new bed(11, "06", "BED 11", 705, 180, 685, 150, 100, 50, "green", "black", 4, "free", "02"));
-        beds.push(new bed(12, "06", "BED 12", 705, 250, 685, 220, 100, 50, "green", "black", 4, "free", "02"));
-        beds.push(new bed(13, "07", "BED 13", 705, 320, 685, 290, 100, 50, "green", "black", 4, "free", "02"));
-        beds.push(new bed(14, "07", "BED 14", 705, 390, 685, 360, 100, 50, "green", "black", 4, "free", "02"));
-        beds.push(new bed(15, "08", "BED 15", 705, 460, 685, 430, 100, 50, "green", "black", 4, "free", "02"));
-        beds.push(new bed(16, "08", "BED 16", 705, 530, 685, 500, 100, 50, "green", "black", 4, "free", "02"));
+        beds.push(new bed(1, "01", "BED1", 30, 40, 10, 10, 100, 50, "green", "black", 4, "free", "01"));
+        beds.push(new bed(2, "01", "BED2", 30, 110, 10, 80, 100, 50, "green", "black", 4, "free", "01"));
+        beds.push(new bed(3, "02", "BED3", 30, 180, 10, 150, 100, 50, "green", "black", 4, "free", "01"));
+        beds.push(new bed(4, "02", "BED4", 30, 250, 10, 220, 100, 50, "green", "black", 4, "free", "01"));
+        beds.push(new bed(5, "03", "BED5", 30, 320, 10, 290, 100, 50, "green", "black", 4, "free", "01"));
+        beds.push(new bed(6, "03", "BED6", 30, 390, 10, 360, 100, 50, "green", "black", 4, "free", "01"));
+        beds.push(new bed(7, "04", "BED7", 30, 460, 10, 430, 100, 50, "green", "black", 4, "free", "01"));
+        beds.push(new bed(8, "04", "BED8", 30, 530, 10, 500, 100, 50, "green", "black", 4, "free", "01"));
+        beds.push(new bed(9, "05", "BED9", 705, 40, 685, 10, 100, 50, "green", "black", 4, "free", "02"));
+        beds.push(new bed(10, "05", "BED10", 705, 110, 685, 80, 100, 50, "green", "black", 4, "free", "02"));
+        beds.push(new bed(11, "06", "BED11", 705, 180, 685, 150, 100, 50, "green", "black", 4, "free", "02"));
+        beds.push(new bed(12, "06", "BED12", 705, 250, 685, 220, 100, 50, "green", "black", 4, "free", "02"));
+        beds.push(new bed(13, "07", "BED13", 705, 320, 685, 290, 100, 50, "green", "black", 4, "free", "02"));
+        beds.push(new bed(14, "07", "BED14", 705, 390, 685, 360, 100, 50, "green", "black", 4, "free", "02"));
+        beds.push(new bed(15, "08", "BED15", 705, 460, 685, 430, 100, 50, "green", "black", 4, "free", "02"));
+        beds.push(new bed(16, "08", "BED16", 705, 530, 685, 500, 100, 50, "green", "black", 4, "free", "02"));
 
         TIGs = [];
         TIGs.push(new TIG("01", "free"));

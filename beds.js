@@ -14,6 +14,7 @@ var fillbedblue = function () {
         }
     }
     );
+
 }
 
 
@@ -82,6 +83,7 @@ function ClearBed() {
     );
     myModal.hide();
     console.log("Bed  " + bednumber + " is free");
+    SIGstate();
 }
 
 
@@ -129,6 +131,8 @@ function Bedpatient(DNI, name, age, cause) {
         }
     }
     );
+
+    SIGstate();
 
 }
 

@@ -71,6 +71,7 @@ var resetcall = function (bednum) {
 function CallEvent() {
    fillbedred(bednum);
    TIGCOM(bednum);
+   SIGstate();
 }
 
 var TIGCOM = function (bn) {
@@ -109,18 +110,20 @@ function TIGANSWER(msg) {
          var t = obj.TIGID;
          TIGOccupied(t);
          counter = 0;
+         SIGstate();
          break;
 
       case "D":
          var tt = obj.TIGID;
          TIGSelect(tt, bednum);
+         SIGstate();
          break;
 
       case "F":
          resetcall(bednum);
          var ttt = obj.TIGID;
          TIGFree(ttt);
-
+         SIGstate();
          break;
 
       /* case "T":
@@ -212,3 +215,117 @@ function MqttPublish(bn, IDTIG) {
 
 }
 
+function SIGstate() {
+   console.log("Saving SIG state");
+   saveCurrentBeds();
+   saveCurrentTIGs();
+}
+
+function Getstate() {
+   console.log("Getting last state from database...");
+
+   beds.forEach(element => {
+      db.collection("BEDs").where("ID", "==", element.id)
+         .get()
+         .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+               if (doc.data().state != "free") {
+
+               }
+               console.log(doc.id, " => ", doc.data());
+               element.fill = doc.data().fill;
+               element.state = doc.data().state;
+               element.DNI = doc.data().DNI;
+               element.patient = doc.data().patient;
+               element.age = doc.data().age;
+               element.cause = doc.data().cause;
+
+            });
+         })
+         .catch((error) => {
+            console.log("Error getting documents: ", error);
+         });
+   }
+   );
+
+
+   TIGs.forEach(element => {
+
+   }
+   );
+}
+
+var saveCurrentBeds = function () {
+   beds.forEach(element => {
+      if (element.state == "occupied" || element.state == "call") {
+         db.collection("BEDs").doc(element.text).set({
+            ID: element.id,
+            room: element.room,
+            fill: element.fill,
+            state: element.state,
+            DNI: element.DNI,
+            patient: element.patient,
+            age: element.age,
+            cause: element.cause
+
+         })
+
+
+            .then(() => {
+               //console.log("BED", " ", element.text, " ", " last state saved");
+
+
+
+
+            })
+            .catch((error) => {
+               console.error("Error adding document: ", error);
+            });
+      } else {
+         db.collection("BEDs").doc(element.text).set({
+
+            ID: element.id,
+            room: element.room,
+            fill: element.fill,
+            state: element.state,
+
+         })
+
+
+            .then(() => {
+               console.log("BED", " ", element.text, " ", " last state saved");
+
+
+
+
+            })
+            .catch((error) => {
+               console.error("Error adding document: ", error);
+            });
+
+      }
+   });
+};
+
+var saveCurrentTIGs = function () {
+   TIGs.forEach(element => {
+      db.collection("TIGs").doc(element.id).set({
+         ID: element.id,
+         state: element.state,
+      })
+
+
+         .then(() => {
+            // console.log("TIG", " ", element.id, " ", " last state saved");
+
+
+
+
+         })
+         .catch((error) => {
+            console.error("Error adding document: ", error);
+         });
+
+
+   });
+}; 
