@@ -1,5 +1,8 @@
 
 var counter = 0;
+var CALLs = [];
+
+
 
 var fillbedred = function (bednum) {
    beds.forEach(element => {
@@ -68,14 +71,14 @@ var resetcall = function (bednum) {
    );
 }
 
-function CallEvent() {
+function CallEvent(bb) {
    beds.forEach(element => {
-      if (element.id == bednum && (element.state == "occupied" || element.state == "call")) {
-         fillbedred(bednum);
-         TIGCOM(bednum);
+      if (element.id == bb && (element.state == "occupied" || element.state == "call")) {
+         fillbedred(bb);
+         TIGCOM(bb);
          SIGstate();
-      } else if (element.id == bednum) {
-         console.log("Call without patient in bed " + bednum);
+      } else if (element.id == bb) {
+         console.log("Call without patient in bed " + bb);
       }
    }
    );
@@ -161,24 +164,18 @@ function Recall() {
 
 function ArchivedMessages() {
    console.log("Getting archived messages from database...");
-      db.collection("CALLs").orderBy("datetime", "desc")
-         .get()
-         .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-               console.log(doc.id, " => ", doc.data());
-               // element.fill = doc.data().fill;
-               // element.state = doc.data().state;
-               // element.DNI = doc.data().DNI;
-               // element.patient = doc.data().patient;
-               // element.age = doc.data().age;
-               // element.cause = doc.data().cause;
-
-            });
-         })
-         .catch((error) => {
-            console.log("Error getting documents: ", error);
+   db.collection("CALLs").orderBy("datetime").limit(1)
+      .get()
+      .then((querySnapshot) => {
+         querySnapshot.forEach((doc) => {
+            console.log(doc.id, " => ", doc.data());
+            CALLs.push(new CALL(doc.id, doc.data().Bed, doc.data().state))
          });
-   
+      })
+      .catch((error) => {
+         console.log("Error getting documents: ", error);
+      });
+   console.log(CALLs);
 }
 
 function TIGSelect(tig, bn) {
@@ -263,7 +260,7 @@ function SIGstate() {
    console.log("Saving SIG state");
    saveCurrentBeds();
    saveCurrentTIGs();
-   
+
 }
 
 function Getstate() {
@@ -274,9 +271,7 @@ function Getstate() {
          .get()
          .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
-               if (doc.data().state != "free") {
 
-               }
                console.log(doc.id, " => ", doc.data());
                element.fill = doc.data().fill;
                element.state = doc.data().state;
@@ -292,7 +287,7 @@ function Getstate() {
          });
    }
    );
-   
+
 }
 
 var saveCurrentBeds = function () {
@@ -375,6 +370,7 @@ var saveCurrenCall = function (bn) {
    var Timestamp = firebase.firestore.Timestamp.fromDate(new Date());
    db.collection("CALLs").add({
       Bed: bn,
+      state: "call",
       datetime: Timestamp.toDate().toDateString() + '     ' + Timestamp.toDate().toLocaleTimeString('es-ES'),
    })
 
@@ -390,4 +386,21 @@ var saveCurrenCall = function (bn) {
          console.error("Error adding document: ", error);
       });
 
-}; 
+};
+
+function TIGLoop() {
+   TIGs.forEach(element => {
+      var length = CALLs.length;
+      if (element.state == "free" && length > 0) {
+         console.log("Entrado a reeenvio")
+         CallEvent(CALLs[0].bnum)
+         CALLs = [];
+      }
+   }
+   );
+}
+
+setInterval('TIGLoop()',10000);
+
+
+

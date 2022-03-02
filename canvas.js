@@ -151,6 +151,31 @@ function draw() {
             return TIG;
         })();
 
+        CALL = (function () {
+
+            // CALL Class
+            function CALL(id, bnum, state) {
+                this.id = id;
+                this.bnum = bnum;
+                this.state = state;
+                return (this);
+            }
+
+            CALL.prototype.setID = function (z) {
+                this.id = z;
+            }
+
+            CALL.prototype.setbnum = function (x) {
+                this.bnum = x;
+            }
+
+            CALL.prototype.setState = function (o) {
+                this.state = o;
+            }
+
+            return CALL;
+        })();
+
         function OutsideRect() {
 
             ctx.lineWidth = 3;
@@ -235,6 +260,9 @@ function draw() {
         // TIGs.push(new TIG("03", "free"));
         // TIGs.push(new TIG("04", "free"));
         // TIGs.push(new TIG("05", "free"));
+
+        
+        
 
         $("#canvas").click(handleMouseDown);
         $("#canvas").mousemove(handleMouseMove);

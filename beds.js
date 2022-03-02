@@ -175,7 +175,6 @@ function PatientsSearch4bed() {
               <td>${doc.data().DNI}</td>
               <td>${doc.data().name}</td>
               <td>${doc.data().age}</td>
-              <td>${doc.data().room}</td>
               <td>${doc.data().cause}</td>
               <td>${doc.data().data}</td>
               <td><button class="btn btn-success" onclick="Bedpatient('${doc.data().DNI}','${doc.data().name}','${doc.data().age}','${doc.data().cause}')">Add</button></td>
