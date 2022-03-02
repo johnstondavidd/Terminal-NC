@@ -232,9 +232,9 @@ function draw() {
         TIGs = [];
         TIGs.push(new TIG("01", "free"));
         TIGs.push(new TIG("02", "free"));
-        TIGs.push(new TIG("03", "free"));
-        TIGs.push(new TIG("04", "free"));
-        TIGs.push(new TIG("05", "free"));
+        // TIGs.push(new TIG("03", "free"));
+        // TIGs.push(new TIG("04", "free"));
+        // TIGs.push(new TIG("05", "free"));
 
         $("#canvas").click(handleMouseDown);
         $("#canvas").mousemove(handleMouseMove);

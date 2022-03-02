@@ -69,9 +69,18 @@ var resetcall = function (bednum) {
 }
 
 function CallEvent() {
-   fillbedred(bednum);
-   TIGCOM(bednum);
-   SIGstate();
+   beds.forEach(element => {
+      if (element.id == bednum && (element.state == "occupied" || element.state == "call")) {
+         fillbedred(bednum);
+         TIGCOM(bednum);
+         SIGstate();
+      } else if (element.id == bednum) {
+         console.log("Call without patient in bed " + bednum);
+      }
+   }
+   );
+
+
 }
 
 var TIGCOM = function (bn) {
@@ -89,7 +98,7 @@ var TIGCOM = function (bn) {
          MqttPublish(bn, TIGid);
       }
 
-      if (element.id == TIGid && element.state == "occupied") {
+      if (element.id == TIGid && (element.state == "occupied")) {
          TIGSelect(TIGid, bn);
       }
    }
@@ -126,26 +135,50 @@ function TIGANSWER(msg) {
          SIGstate();
          break;
 
-      /* case "T":
-          console.log("Counter :" + counter)
-          counter = counter + 1;
-          var tt2 = obj.TIGID;
-          if (counter > 3 && tt2 != tt) {
-             var tt = obj.TIGID;
-             TIGSelect(tt, bednum);
-             counter = 0;
-          }
-          TIGCOM(bednum);
-          
-       break;*/
+      case "T":
+         console.log("Counter :" + counter)
+         counter = counter + 1;;
+         if (counter > 3) {
+            var tt = obj.TIGID;
+            TIGSelect(tt, bednum);
+            counter = 0;
+            break;
+
+         }
+         TIGCOM(bednum);
+
+         break;
 
       default:
          break;
    }
 }
 
+
 function Recall() {
    console.log("Volver a enviar mensaje")
+}
+
+function ArchivedMessages() {
+   console.log("Getting archived messages from database...");
+      db.collection("CALLs").orderBy("datetime", "desc")
+         .get()
+         .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+               console.log(doc.id, " => ", doc.data());
+               // element.fill = doc.data().fill;
+               // element.state = doc.data().state;
+               // element.DNI = doc.data().DNI;
+               // element.patient = doc.data().patient;
+               // element.age = doc.data().age;
+               // element.cause = doc.data().cause;
+
+            });
+         })
+         .catch((error) => {
+            console.log("Error getting documents: ", error);
+         });
+   
 }
 
 function TIGSelect(tig, bn) {
@@ -173,6 +206,17 @@ function TIGSelect(tig, bn) {
       }
    }
    );
+   var occupiedTIGs = 0;
+   TIGs.forEach(element => {
+
+      if (element.state == "occupied") {
+         occupiedTIGs = occupiedTIGs + 1;
+      }
+   }
+   );
+   if (occupiedTIGs == TIGs.length) {
+      saveCurrenCall(bn);
+   }
 
 }
 
@@ -219,11 +263,12 @@ function SIGstate() {
    console.log("Saving SIG state");
    saveCurrentBeds();
    saveCurrentTIGs();
+   
 }
 
 function Getstate() {
    console.log("Getting last state from database...");
-
+   ArchivedMessages();
    beds.forEach(element => {
       db.collection("BEDs").where("ID", "==", element.id)
          .get()
@@ -247,12 +292,7 @@ function Getstate() {
          });
    }
    );
-
-
-   TIGs.forEach(element => {
-
-   }
-   );
+   
 }
 
 var saveCurrentBeds = function () {
@@ -328,4 +368,26 @@ var saveCurrentTIGs = function () {
 
 
    });
+};
+
+var saveCurrenCall = function (bn) {
+   console.log("Call Saved in DB")
+   var Timestamp = firebase.firestore.Timestamp.fromDate(new Date());
+   db.collection("CALLs").add({
+      Bed: bn,
+      datetime: Timestamp.toDate().toDateString() + '     ' + Timestamp.toDate().toLocaleTimeString('es-ES'),
+   })
+
+
+      .then(() => {
+         // console.log("TIG", " ", element.id, " ", " last state saved");
+
+
+
+
+      })
+      .catch((error) => {
+         console.error("Error adding document: ", error);
+      });
+
 }; 

@@ -1,7 +1,6 @@
 var db = firebase.firestore();
 
 
-
 function SavePatient() {
 
   var name = document.getElementById('name').value;
