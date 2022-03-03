@@ -33,6 +33,7 @@ function Sign() {
       var errorMessage = error.message;
       console.log(errorCode);
       console.log(errorMessage);
+      alert("Error singing up, please try again")
     });
   Observer();
 }
@@ -69,7 +70,7 @@ function Appear(user) {
   var content = document.getElementById('content');
   if (user.emailVerified) {
     location.href = "file:///E:/Facultad/Proyecto%20de%20sist%20digitales/Proyecto%20FINAL/NC-Terminal/index.html";
-    // var win = window.open('file:///E:/Facultad/Proyecto%20de%20sist%20digitales/Proyecto%20FINAL/NC-Terminal/index.html', '_blank');
+
 
     if (win) {
       //Browser has allowed it to be opened.
@@ -81,7 +82,6 @@ function Appear(user) {
     }
 
   }
-
 }
 
 function Verify() {

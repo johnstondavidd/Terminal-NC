@@ -1,7 +1,12 @@
 
 var counter = 0;
 var CALLs = [];
-
+var timer;
+var timerdecline;
+var timerfree;
+var timerfreetig;
+var docid;
+var declineTIG;
 
 
 var fillbedred = function (bednum) {
@@ -96,13 +101,18 @@ var TIGCOM = function (bn) {
    );
 
    TIGs.forEach(element => {
-      if (element.id == TIGid && element.state == "free") {
+      if (element.id == TIGid && (element.state == "free"|| element.state == "call")) {
          console.log("Making call of bed " + bn + " to TIG " + element.id);
          MqttPublish(bn, TIGid);
       }
 
       if (element.id == TIGid && (element.state == "occupied")) {
          TIGSelect(TIGid, bn);
+      }
+
+      var occupiedTIGs = 0;
+      if (occupiedTIGs == TIGs.length) {
+         timer = setInterval(' TIGLoop()', 10000);
       }
    }
    );
@@ -127,14 +137,19 @@ function TIGANSWER(msg) {
 
       case "D":
          var tt = obj.TIGID;
+         declineTIG = obj.TIGID;
+         TIGOccupied(tt);
+         timerdecline = setInterval('DeclineTIG()', 30000);
          TIGSelect(tt, bednum);
          SIGstate();
          break;
 
       case "F":
          resetcall(bednum);
-         var ttt = obj.TIGID;
-         TIGFree(ttt);
+         var tt = obj.TIGID;
+         TIGOccupied(tt);
+         timerfreetig = obj.TIGID;
+         timerfree = setInterval('TimerFreeTIG()', 10000);
          SIGstate();
          break;
 
@@ -163,26 +178,34 @@ function Recall() {
 }
 
 function ArchivedMessages() {
-   console.log("Getting archived messages from database...");
-   db.collection("CALLs").orderBy("datetime").limit(1)
-      .get()
-      .then((querySnapshot) => {
-         querySnapshot.forEach((doc) => {
-            console.log(doc.id, " => ", doc.data());
-            CALLs.push(new CALL(doc.id, doc.data().Bed, doc.data().state))
+
+   var length = CALLs.length;
+   if (length < 1) {
+      console.log("Getting archived messages from database...");
+      db.collection("CALLs").orderBy("datetime").limit(1)
+         .get()
+         .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+               docid = doc.id;
+               console.log(doc.id, " => ", doc.data());
+               CALLs.push(new CALL(doc.id, doc.data().Bed, doc.data().state))
+            });
+         })
+         .catch((error) => {
+            console.log("Error getting documents: ", error);
+
          });
-      })
-      .catch((error) => {
-         console.log("Error getting documents: ", error);
-      });
-   console.log(CALLs);
+      console.log(CALLs);
+      timer = setInterval(' TIGLoop()', 10000);
+   }
+
 }
 
 function TIGSelect(tig, bn) {
    var flag = 0;
    TIGs.forEach(element => {
       if (element.id > tig && flag == 0) {
-         if (element.state == "free") {
+         if (element.state == "free"|| element.state == "call") {
             console.log("Making call of bed " + bn + " to TIG " + element.id);
             var IDTIG = element.id
             MqttPublish(bn, IDTIG);
@@ -194,7 +217,7 @@ function TIGSelect(tig, bn) {
 
    TIGs.forEach(element => {
       if (element.id < tig && flag == 0) {
-         if (element.state == "free") {
+         if (element.state == "free"|| element.state == "call") {
             console.log("Making call of bed " + bn + " to TIG " + element.id);
             var IDTIG = element.id
             MqttPublish(bn, IDTIG);
@@ -213,6 +236,7 @@ function TIGSelect(tig, bn) {
    );
    if (occupiedTIGs == TIGs.length) {
       saveCurrenCall(bn);
+      timer = setInterval(' TIGLoop()', 10000);
    }
 
 }
@@ -235,8 +259,28 @@ function TIGFree(tid) {
    );
 }
 
+function TIGCall(tid) {
+   TIGs.forEach(element => {
+      if (element.id == tid) {
+         element.setState("call");
+      }
+   }
+   );
+}
+
+function DeclineTIG() {
+   TIGFree(declineTIG);
+   clearInterval(timerdecline);
+}
+
+function TimerFreeTIG() {
+   TIGFree(timerfreetig);
+   clearInterval(timerfree);
+}
+
 function MqttPublish(bn, IDTIG) {
 
+   TIGCall(IDTIG);
    beds.forEach(element => {
       if (element.id == bn) {
          const data = {
@@ -307,7 +351,7 @@ var saveCurrentBeds = function () {
 
 
             .then(() => {
-               //console.log("BED", " ", element.text, " ", " last state saved");
+
 
 
 
@@ -328,7 +372,7 @@ var saveCurrentBeds = function () {
 
 
             .then(() => {
-               console.log("BED", " ", element.text, " ", " last state saved");
+
 
 
 
@@ -351,7 +395,7 @@ var saveCurrentTIGs = function () {
 
 
          .then(() => {
-            // console.log("TIG", " ", element.id, " ", " last state saved");
+
 
 
 
@@ -394,13 +438,19 @@ function TIGLoop() {
       if (element.state == "free" && length > 0) {
          console.log("Entrado a reeenvio")
          CallEvent(CALLs[0].bnum)
+         clearInterval(timer);
          CALLs = [];
+         db.collection("CALLs").doc(docid).delete().then(() => {
+            console.log("Document successfully deleted!");
+         }).catch((error) => {
+            console.error("Error removing document: ", error);
+         });
       }
    }
    );
 }
 
-setInterval('TIGLoop()',10000);
+setInterval('ArchivedMessages()', 10000);
 
 
 
