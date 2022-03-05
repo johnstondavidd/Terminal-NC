@@ -17,6 +17,7 @@ var fillbedblue = function () {
 
 }
 
+//BED Management
 
 function AddBed(bednumber) {
     myModal.hide();
@@ -31,7 +32,6 @@ function ClearBed() {
     beds.forEach(element => {
         if (element.id == bednumber) {
             element.setDNI("");
-            console.log("Bed obj DNI: " + element.DNI)
         }
     }
     );
@@ -39,7 +39,6 @@ function ClearBed() {
     beds.forEach(element => {
         if (element.id == bednumber) {
             element.setPatient("");
-            console.log("Bed obj Patient: " + element.patient)
         }
     }
     );
@@ -47,7 +46,6 @@ function ClearBed() {
     beds.forEach(element => {
         if (element.id == bednumber) {
             element.setAge("");
-            console.log("Bed obj Age: " + element.age)
         }
     }
     );
@@ -55,15 +53,6 @@ function ClearBed() {
     beds.forEach(element => {
         if (element.id == bednumber) {
             element.setCause("");
-            console.log("Bed obj Cause: " + element.cause)
-        }
-    }
-    );
-
-    beds.forEach(element => {
-        if (element.id == bednumber) {
-            element.setState("occupied");
-            console.log("Bed obj State: " + element.state)
         }
     }
     );
@@ -72,6 +61,7 @@ function ClearBed() {
         if (element.id == bednumber) {
             element.setColour("green");
             element.setState("free");
+            console.log("Bed obj State: " + element.state)
         }
     }
     );
@@ -95,7 +85,6 @@ function Bedpatient(DNI, name, age, cause) {
     beds.forEach(element => {
         if (element.id == bednumber) {
             element.setDNI(DNI);
-            console.log("Bed obj DNI: " + element.DNI)
         }
     }
     );
@@ -103,7 +92,6 @@ function Bedpatient(DNI, name, age, cause) {
     beds.forEach(element => {
         if (element.id == bednumber) {
             element.setPatient(name);
-            console.log("Bed obj Patient: " + element.patient)
         }
     }
     );
@@ -111,7 +99,6 @@ function Bedpatient(DNI, name, age, cause) {
     beds.forEach(element => {
         if (element.id == bednumber) {
             element.setAge(age);
-            console.log("Bed obj Age: " + element.age)
         }
     }
     );
@@ -119,7 +106,6 @@ function Bedpatient(DNI, name, age, cause) {
     beds.forEach(element => {
         if (element.id == bednumber) {
             element.setCause(cause);
-            console.log("Bed obj Cause: " + element.cause)
         }
     }
     );

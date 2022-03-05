@@ -1,3 +1,5 @@
+//Canvas, objects, classes & methods
+
 let bednumber;
 var myModal;
 var beds = [];
@@ -41,6 +43,8 @@ function draw() {
                 this.redraw(this.x, this.y);
                 return (this);
             }
+
+            //BED Methods
             bed.prototype.redraw = function (x, y) {
                 this.x = x || this.x;
                 this.y = y || this.y;
@@ -144,6 +148,7 @@ function draw() {
                 return (this);
             }
 
+            //TIG Methods
             TIG.prototype.setState = function (o) {
                 this.state = o;
             }
@@ -161,6 +166,7 @@ function draw() {
                 return (this);
             }
 
+            //CALL Methods
             CALL.prototype.setID = function (z) {
                 this.id = z;
             }
@@ -176,6 +182,7 @@ function draw() {
             return CALL;
         })();
 
+        //HMI with canvas
         function OutsideRect() {
 
             ctx.lineWidth = 3;
@@ -254,6 +261,7 @@ function draw() {
         beds.push(new bed(15, "08", "BED15", 705, 460, 685, 430, 100, 50, "green", "black", 4, "free", "02"));
         beds.push(new bed(16, "08", "BED16", 705, 530, 685, 500, 100, 50, "green", "black", 4, "free", "02"));
 
+        // Scalable TIG entry
         TIGs = [];
         TIGs.push(new TIG("01", "free"));
         TIGs.push(new TIG("02", "free"));

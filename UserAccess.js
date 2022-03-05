@@ -1,3 +1,5 @@
+//User Access
+
 var db = firebase.firestore();
 
 function Register() {
@@ -63,7 +65,6 @@ function Observer() {
   });
 }
 
-//Observer();
 
 function Appear(user) {
   var user = user;

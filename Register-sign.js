@@ -1,5 +1,6 @@
-var db = firebase.firestore();
+//Patient CRUD & comments
 
+var db = firebase.firestore();
 
 function SavePatient() {
 
